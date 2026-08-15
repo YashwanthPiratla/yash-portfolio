@@ -12,8 +12,9 @@ The site is a static Astro build. Hosting is Vercel (free Hobby plan is plenty).
 
 - Code: `https://github.com/Johaan-Mannanal/yash-portfolio` (will be transferred to your GitHub
   account — see §5).
-- Vercel project: currently under Johaan's Vercel account with a temporary `*.vercel.app` URL. You
-  can either (a) take over that project, or (b) create your own — §1 covers (b) which is cleanest.
+- Live preview (already deployed): **https://yash-piratla.vercel.app** — under Johaan's Vercel
+  account. You can either (a) have Johaan transfer that Vercel project to you, or (b) create your
+  own — §1 covers (b), which is cleanest. Either way, every push to `main` auto-deploys.
 
 ---
 
