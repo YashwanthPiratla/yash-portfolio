@@ -1,0 +1,28 @@
+---
+const year = new Date().getFullYear();
+---
+<footer class="site">
+  <div class="wrap inner">
+    <div>
+      <div class="name">Yashwanth Piratla</div>
+      <div class="muted small">Mechanical Engineering — University of California, Berkeley</div>
+    </div>
+    <ul>
+      <li><a href="/projects">Engineering Projects</a></li>
+      <li><a href="/research">Research</a></li>
+      <li><a href="/Yash_Piratla_Resume.pdf" target="_blank" rel="noopener">Resume (PDF)</a></li>
+      <li><a href="mailto:ypiratla@gmail.com">ypiratla@gmail.com</a></li>
+      <li><a href="https://github.com/YashwanthPiratla" target="_blank" rel="noopener">GitHub</a></li>
+      <li><a href="https://www.linkedin.com/in/yashwanth-piratla-5115b826/" target="_blank" rel="noopener">LinkedIn</a></li>
+    </ul>
+  </div>
+  <div class="wrap legal muted small">© {year} Yashwanth Piratla · <span class="mono">yash.piratla.com</span></div>
+</footer>
+<style>
+  footer.site { border-top: 1px solid var(--line); background: var(--bg-2); margin-top: 4rem; }
+  .inner { display: flex; justify-content: space-between; gap: 2rem; padding-top: 2.5rem; padding-bottom: 1.5rem; flex-wrap: wrap; }
+  .name { font-weight: 650; }
+  ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 0.25rem 1.25rem; flex-wrap: wrap; font-size: 0.9rem; }
+  ul a { color: var(--ink-2); }
+  .legal { padding-bottom: 2rem; }
+</style>

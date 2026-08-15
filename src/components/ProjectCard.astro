@@ -1,0 +1,26 @@
+---
+import { Image } from 'astro:assets';
+import { img } from '../lib/images';
+interface Props { href: string; title: string; summary: string; disciplines: string[]; thumbnail?: string; status?: string; contain?: boolean; kindLabel?: string; }
+const { href, title, summary, disciplines, thumbnail, status = 'published', contain = false, kindLabel } = Astro.props;
+const soon = status === 'coming-soon';
+const meta = thumbnail ? img(thumbnail) : undefined;
+---
+<article class:list={['card', { soon }]}>
+  <a class:list={['thumb', { contain }]} href={href} aria-hidden="true" tabindex="-1">
+    {meta ? <Image src={meta} alt="" width={800} format="webp" quality={78} /> : <div class="ph"><span class="mono">Photos coming soon</span></div>}
+  </a>
+  <div class="body">
+    {kindLabel && <span class="eyebrow">{kindLabel}</span>}
+    <h3><a href={href}>{title}</a></h3>
+    <p>{summary}</p>
+    <div class="tags">{disciplines.map(d => <span class="tag">{d}</span>)}</div>
+    <div class="foot">
+      <a class="more" href={href}>{soon ? 'Preview page →' : 'Read case study →'}</a>
+      {soon && <span class="badge-soon">In progress</span>}
+    </div>
+  </div>
+</article>
+<style>
+  .ph { width: 100%; height: 100%; display: grid; place-items: center; color: var(--ink-3); font-size: 0.8rem; background: repeating-linear-gradient(45deg, var(--bg-2) 0 12px, var(--bg-3) 12px 24px); }
+</style>

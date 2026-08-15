@@ -1,0 +1,9 @@
+---
+interface Props { stats: { value: string; label: string }[] }
+const { stats } = Astro.props;
+---
+{stats.length > 0 && (
+  <div class="specs">
+    {stats.map(s => <div class="spec"><div class="v">{s.value}</div><div class="l">{s.label}</div></div>)}
+  </div>
+)}

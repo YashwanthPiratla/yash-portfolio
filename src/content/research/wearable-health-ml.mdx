@@ -1,0 +1,199 @@
+---
+title: Wearable Health ML Research
+subtitle: Research · iOS Development · Machine Learning · Apple HealthKit
+summary: A two-person research project on wearable cardiovascular signals — I built the SwiftUI iOS application and HealthKit data collection, and drove the app concept and system architecture around a machine-learning study.
+disciplines: ['iOS / Swift', 'Apple HealthKit', 'Core ML', 'Systems Architecture', 'Research']
+kind: research
+order: 1
+hero: research/workflow.png
+heroContain: true
+thumbnail: research/model_comparison.png
+stats:
+  - { value: '4', label: 'Model families compared' }
+  - { value: '4', label: 'HealthKit signals collected' }
+  - { value: '2', label: 'Inference paths (on-device + server)' }
+  - { value: 'Synthetic', label: 'Data — not a medical device' }
+collaborators:
+  - { name: 'Johaan Mannanal', url: 'https://github.com/Johaan-Mannanal', role: 'ML pipeline, model training, FastAPI backend' }
+---
+import Fig from '../../components/Fig.astro';
+import { img } from '../../lib/images';
+
+<section id="overview">
+<span class="eyebrow">01 — Research overview</span>
+<h2>Can standard models separate patterns in wearable cardiovascular signals?</h2>
+
+This is a collaborative research and technical project with
+[Johaan Mannanal](https://github.com/Johaan-Mannanal). The study asks a deliberately bounded
+question: can standard machine-learning models separate labeled patterns in **synthetic**
+wearable-style cardiovascular signals — heart rate and heart-rate variability — and can that
+pipeline be built to real engineering standards: reproducible, tested, and honestly reported?
+
+Around that core study we built a full-stack demonstration: a FastAPI backend that serves the
+trained models, and a **SwiftUI iOS application** that collects HealthKit-style metrics and
+displays results. I built the app and drove the project's overall plan and architecture.
+
+<div class="note">
+<b>Scope and honesty.</b> All results are on synthetic data designed to resemble Apple Watch /
+HealthKit signal characteristics. No real patient or device data was used, no clinical claim is
+made, and this is not a medical device. The research is unpublished student work.
+</div>
+</section>
+
+<section id="objective">
+<span class="eyebrow">02 — Research objective</span>
+<h2>Why the goal was inverted</h2>
+
+Health-adjacent machine learning is easy to overclaim and hard to verify. Rather than chase a
+headline metric on data that could not be published, the project inverted the goal: build a
+pipeline whose every number a stranger can reproduce from the shipped code, on synthetic data whose
+limitations are stated up front.
+
+The measure of success is the engineering — leakage-safe preprocessing, fixed seeds,
+cross-validation, unit tests, and a model card that says what the results do and do not mean.
+
+The research direction grew out of work done under the guidance of **Professor Jevelson Simenthy**
+(Penn State). The public repository is an independent, synthetic-data rebuild by the authors — not
+an official university publication — so the work could be shared, reproduced, and judged without
+exposing any real health data.
+</section>
+
+<section id="system">
+<span class="eyebrow">03 — Software & system architecture</span>
+<h2>The iOS application</h2>
+
+<div class="split">
+  <div class="txt">
+    <p><b>I built the complete SwiftUI iOS front end</b> — <code>TelemetryHealthCare/</code>.</p>
+    <ul>
+      <li><b>App structure and views:</b> SwiftUI throughout — main tab navigation, analysis views,
+      settings, launch experience — with Core Data for local persistence.</li>
+      <li><b>HealthKit integration:</b> heart rate, heart-rate variability, blood pressure, and ECG,
+      handled through a dedicated HealthKit manager so signal access is explicit and auditable.</li>
+      <li><b>Two inference paths:</b> on-device <b>Core ML</b> models for immediate feedback, and
+      calls to the FastAPI backend for the server-trained pipelines.</li>
+      <li><b>Honest presentation:</b> trends and analysis are displayed behind a prominent medical
+      disclaimer — the app mirrors the repository's stance that this is research, not diagnosis.</li>
+    </ul>
+  </div>
+  <Fig src={img('research/workflow.png')} alt="Diagram of the research pipeline from data generation through feature engineering, training, and evaluation" contain
+       label="Pipeline" caption="The study's workflow: synthetic data generation → feature engineering → training → evaluation." />
+</div>
+
+### Design decisions I made
+
+- **On-device first where possible.** Health signals are sensitive; Core ML inference keeps the
+  immediate loop on the phone, with the backend as the heavier second path.
+- **The disclaimer is UI, not fine print.** If the project's honesty lives only in the README, the
+  app undercuts it. The disclaimer is part of the interface.
+- **Meet at the backend contract.** Models and API on one side, app on the other — a clean boundary
+  that let both halves move independently.
+</section>
+
+<section id="methodology">
+<span class="eyebrow">04 — Machine learning methodology</span>
+<h2>Four model families, compared</h2>
+
+The study (built by Johaan) compares four model families on synthetic classification and regression
+tasks: an **SVM soft-voting ensemble**, **gradient boosting**, a **neural network (MLP)**, and a
+random-forest / GBM / XGBoost **regression ensemble**.
+
+<div class="grid two">
+  <Fig src={img('research/model_comparison.png')} alt="Bar chart comparing accuracy across the model families" contain
+       label="Comparison" caption="Model comparison across the classification tasks." />
+  <Fig src={img('research/class_distribution.png')} alt="Chart of the class distribution in the synthetic dataset" contain
+       label="Dataset" caption="Class distribution in the synthetic dataset." />
+</div>
+</section>
+
+<section id="results">
+<span class="eyebrow">05 — Results</span>
+<h2>Verified, reproducible numbers</h2>
+
+Headline results reproduced from the shipped code with seed 42:
+
+<div class="table-wrap">
+<table class="spec-table">
+  <thead><tr><th>Model</th><th>Task</th><th>Result</th></tr></thead>
+  <tbody>
+    <tr><td>SVM</td><td>Binary rhythm classification</td><td>93.9% accuracy</td></tr>
+    <tr><td>GBM</td><td>Binary health-risk classification</td><td>99.4% accuracy</td></tr>
+    <tr><td>MLP</td><td>4-class HRV classification</td><td>99.0% accuracy</td></tr>
+    <tr><td>Regression ensemble</td><td>Fitness / VO₂max / cardiovascular age</td><td>R² = 0.918 / 0.563 / 0.970</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="note">
+Because the data is synthetic and separable by design, <b>these numbers measure the pipeline, not
+clinical performance.</b> See the project's model card for what they do and do not mean.
+</div>
+
+<div class="grid three">
+  <Fig src={img('research/confusion_matrix_svm.png')} alt="Confusion matrix for the SVM classifier" contain label="SVM" caption="Confusion matrix." />
+  <Fig src={img('research/confusion_matrix_gbm.png')} alt="Confusion matrix for the gradient boosting classifier" contain label="GBM" caption="Confusion matrix." />
+  <Fig src={img('research/confusion_matrix_nn.png')} alt="Confusion matrix for the neural network classifier" contain label="MLP" caption="Confusion matrix." />
+</div>
+</section>
+
+<section id="contribution">
+<span class="eyebrow">06 — My contribution</span>
+<h2>Who built what</h2>
+
+<div class="role">
+  <div>
+    <span class="eyebrow accent">Yash Piratla — me</span>
+    <ul>
+      <li>Project planning and overall system architecture</li>
+      <li>The complete SwiftUI iOS front end</li>
+      <li>HealthKit data integration — heart rate, HRV, blood pressure, ECG</li>
+      <li>Core ML incorporation for on-device inference</li>
+      <li>App concept and the UI framing of results and disclaimers</li>
+    </ul>
+  </div>
+  <div>
+    <span class="eyebrow">Johaan Mannanal</span>
+    <ul>
+      <li>End-to-end ML pipeline: synthetic data generation, feature engineering, training, evaluation, visualization</li>
+      <li>The four model families and their comparison</li>
+      <li>The FastAPI service that serves the trained models</li>
+    </ul>
+  </div>
+  <div>
+    <span class="eyebrow">Together</span>
+    <ul>
+      <li>Research direction and the project's bounded scope</li>
+      <li>The backend contract where the app and models meet</li>
+      <li>The project's stance on honest reporting and limitations</li>
+    </ul>
+  </div>
+</div>
+
+<p class="small muted">The iOS app and backend are works in progress, not production systems. The
+exact state is visible in the public repository rather than claimed here.</p>
+</section>
+
+<section id="links">
+<span class="eyebrow">07 — Research output</span>
+<h2>Repositories</h2>
+
+<ul>
+  <li><a href="https://github.com/Rhthm360/telemetry-healthcare" target="_blank" rel="noopener">Rhthm360/telemetry-healthcare</a> — the main repository, including the team case study, model card, research notes, and verified metrics</li>
+  <li><a href="https://github.com/Johaan-Mannanal/yash-wearable-health-case-study" target="_blank" rel="noopener">My personal case study</a> — my perspective on the work</li>
+  <li><a href="https://github.com/Johaan-Mannanal/wearable-health-case-study" target="_blank" rel="noopener">Johaan's personal case study</a> — the ML and backend story</li>
+</ul>
+</section>
+
+<section id="lessons">
+<span class="eyebrow">08 — Lessons learned</span>
+<h2>What the project taught me</h2>
+
+- **Wearable data is messy and sensitive.** Deciding which signals to request, and being explicit
+  about that access, is a design decision — not a checkbox.
+- **Software architecture is a negotiation.** Defining the backend contract early is what let two
+  people build two halves in parallel without blocking each other.
+- **Research methodology means bounding the claim.** The most useful thing this project does is
+  refuse to overclaim: synthetic data, stated limitations, reproducible numbers.
+- **Collaboration works when the seams are clear.** Clean interfaces between my app and Johaan's
+  models mattered more than either half individually.
+</section>

@@ -1,0 +1,8 @@
+{
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "redirects": [
+    { "source": "/(.*)", "has": [{ "type": "host", "value": "piratla.com" }], "destination": "https://yash.piratla.com/$1", "permanent": true },
+    { "source": "/(.*)", "has": [{ "type": "host", "value": "www.piratla.com" }], "destination": "https://yash.piratla.com/$1", "permanent": true }
+  ]
+}

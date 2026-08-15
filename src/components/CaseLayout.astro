@@ -1,0 +1,45 @@
+---
+import Base from '../layouts/Base.astro';
+import CaseHero from './CaseHero.astro';
+interface Props {
+  title: string; subtitle: string; description: string; eyebrow?: string;
+  hero?: string; heroAlt?: string; heroCaption?: string; heroContain?: boolean;
+  stats?: { value: string; label: string }[];
+  sections?: { id: string; label: string }[];
+  prev?: { href: string; title: string }; next?: { href: string; title: string };
+  ogImage?: string;
+}
+const { title, subtitle, description, eyebrow, hero, heroAlt, heroCaption, heroContain, stats = [], sections = [], prev, next, ogImage } = Astro.props;
+---
+<Base title={title} description={description} type="article" ogImage={ogImage}>
+  <CaseHero eyebrow={eyebrow} title={title} subtitle={subtitle} hero={hero} heroAlt={heroAlt} heroCaption={heroCaption} contain={heroContain} stats={stats} />
+  {sections.length > 0 && (
+    <div class="subnav">
+      <div class="wrap">
+        <ul>{sections.map(s => <li><a href={`#${s.id}`}>{s.label}</a></li>)}</ul>
+      </div>
+    </div>
+  )}
+  <div class="wrap case">
+    <slot />
+  </div>
+  <div class="wrap">
+    <nav class="pager">
+      {prev ? <a href={prev.href}><span class="eyebrow">Previous</span><span>{prev.title}</span></a> : <span></span>}
+      {next && <a class="r" href={next.href}><span class="eyebrow">Next</span><span>{next.title}</span></a>}
+    </nav>
+  </div>
+</Base>
+<style>
+  .case { padding-top: 2.5rem; padding-bottom: 1rem; }
+  .case :global(section) { padding: clamp(2rem, 4.5vw, 3.25rem) 0; border-top: 1px solid var(--line); }
+  .case :global(section:first-of-type) { border-top: 0; padding-top: 0.5rem; }
+  .case :global(section > h2) { scroll-margin-top: 6.5rem; margin-bottom: 1rem; }
+  .case :global(section > .eyebrow) { display: block; margin-bottom: 0.35rem; }
+  .case :global(p), .case :global(ul) { max-width: 72ch; color: var(--ink-2); }
+  .case :global(section > h3) { margin: 1.75rem 0 0.5rem; }
+  .case :global(.grid), .case :global(.split), .case :global(.psr-list), .case :global(.timeline), .case :global(.specs), .case :global(.role) { margin: 1.5rem 0; }
+  .pager { display: flex; justify-content: space-between; gap: 1rem; border-top: 1px solid var(--line); padding: 1.5rem 0 0; margin-bottom: 1rem; }
+  .pager a { display: flex; flex-direction: column; gap: 0.15rem; font-weight: 600; }
+  .pager .r { text-align: right; }
+</style>

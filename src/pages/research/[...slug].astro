@@ -1,0 +1,26 @@
+---
+import { getCollection, render } from 'astro:content';
+import CaseLayout from '../../components/CaseLayout.astro';
+
+export async function getStaticPaths() {
+  const items = (await getCollection('research')).sort((a, b) => a.data.order - b.data.order);
+  return items.map(entry => ({ params: { slug: entry.id }, props: { entry } }));
+}
+const { entry } = Astro.props;
+const { Content, headings } = await render(entry);
+const sections = headings.filter(h => h.depth === 2).map(h => ({ id: h.slug, label: h.text }));
+const d = entry.data;
+---
+<CaseLayout
+  title={d.title}
+  subtitle={d.subtitle}
+  description={d.summary}
+  eyebrow="Research & technical project"
+  hero={d.hero}
+  heroAlt={`${d.title} — project image`}
+  heroContain={(d as any).heroContain ?? true}
+  stats={d.stats}
+  sections={sections}
+>
+  <Content />
+</CaseLayout>

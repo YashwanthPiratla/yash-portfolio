@@ -1,0 +1,22 @@
+{
+  "name": "yash-portfolio",
+  "version": "1.0.0",
+  "description": "Engineering portfolio of Yashwanth Piratla — yash.piratla.com",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@astrojs/mdx": "^4.3.14",
+    "@astrojs/sitemap": "^3.7.3",
+    "astro": "^5.18.2",
+    "sharp": "^0.35.3"
+  },
+  "private": true,
+  "type": "module"
+}

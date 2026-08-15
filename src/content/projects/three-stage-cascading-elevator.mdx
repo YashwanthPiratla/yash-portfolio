@@ -1,0 +1,254 @@
+---
+title: Three-Stage Cascading Elevator
+subtitle: Mechanical Design · CAD · Manufacturing · FRC
+summary: A fully belt-driven three-stage cascading elevator that reaches a 7-ft scoring target from inside a 3 ft 6 in. starting-height envelope — redesigned component-by-component through testing.
+disciplines: ['Mechanical Design', 'CAD', 'Manufacturing', 'Prototyping', 'Testing']
+kind: mechanical
+order: 1
+season: 2025 FRC season
+hero: elevator/robot-full-extension.png
+thumbnail: elevator/cad-iso.png
+stats:
+  - { value: '300+', label: 'Hours designing, building, testing' }
+  - { value: '3', label: 'Cascading stages' }
+  - { value: '20:1', label: 'Single-motor gear reduction' }
+  - { value: '~7 ft', label: 'Scoring target height' }
+---
+import Fig from '../../components/Fig.astro';
+import PSR from '../../components/PSR.astro';
+import { img } from '../../lib/images';
+
+<section id="overview">
+<span class="eyebrow">01 — Project overview</span>
+<h2>A moving target, mid-season</h2>
+
+I designed and manufactured a three-stage cascading elevator for an FRC competition robot, spending
+**300+ hours** designing, fabricating, assembling, testing, and iterating the mechanism.
+
+The elevator was originally developed for the 2025 FRC game to position a coral game piece at
+different scoring heights on the reef. During development, the team's strategy changed from scoring
+coral to scoring algae on the high net — the mechanism now had to reliably reach a single target
+roughly **7 ft above the ground**.
+
+That change reshaped the mechanical requirements. Instead of optimizing for multiple scoring
+heights, the elevator and its pivoting end-effector could be optimized around one high target,
+while still living inside the robot's **3 ft 6 in. starting-height** and **115 lb total weight**
+constraints.
+
+<div class="split">
+  <div class="txt">
+    <h3>My role</h3>
+    <p>I performed the design, CAD, assembly, and testing of the elevator. Other team members
+    assisted with manufacturing.</p>
+    <h3>The result</h3>
+    <p>The completed elevator was integrated into the competition robot and used as part of the
+    final robot architecture. The single-motor configuration provided sufficient lifting
+    performance while saving weight against the original two-motor design.</p>
+  </div>
+  <Fig src={img('elevator/cad-iso.png')} alt="CAD isometric view of the three-stage cascading elevator assembly" contain
+       label="CAD" caption="The elevator assembly: aluminum V-slot extrusion stages, belt rigging, and the single drive motor at the base." />
+</div>
+</section>
+
+<section id="requirements">
+<span class="eyebrow">02 — Design requirements</span>
+<h2>What the mechanism had to do</h2>
+
+<div class="table-wrap">
+<table class="spec-table">
+  <thead><tr><th>Requirement</th><th>Detail</th></tr></thead>
+  <tbody>
+    <tr><td>Starting height</td><td>Fit within the 3 ft 6 in. robot starting-height limit</td></tr>
+    <tr><td>Weight</td><td>Keep the complete robot under the 115 lb FRC weight limit</td></tr>
+    <tr><td>Vertical reach</td><td>Score algae into the high net approximately 7 ft above the ground</td></tr>
+    <tr><td>Original scope</td><td>Support multiple coral scoring heights on the reef</td></tr>
+    <tr><td>Motion</td><td>Provide synchronized motion across all three stages</td></tr>
+    <tr><td>Structure</td><td>Maintain sufficient rigidity and belt tension under load</td></tr>
+    <tr><td>Packaging</td><td>Fit within the limited packaging space of the competition robot</td></tr>
+    <tr><td>Manufacturability</td><td>Be manufactured, assembled, and serviced with available team equipment</td></tr>
+  </tbody>
+</table>
+</div>
+</section>
+
+<section id="architecture">
+<span class="eyebrow">03 — Major engineering decisions</span>
+<h2>Mechanical architecture</h2>
+
+### Three-stage cascading extension
+
+The elevator used three stages to achieve the required vertical reach while keeping the robot
+within its starting-height constraint. The original design included a carriage contained within
+the third stage, intended to carry the coral scoring end-effector. After the strategy change, the
+carriage was removed and the mechanism was adapted around the new scoring configuration — the
+final system relied on the elevator's vertical extension combined with a pivoting arm to reach the
+~7-ft target.
+
+### Belt-driven cascading system
+
+The elevator used a fully belt-driven cascading system, with the stages mechanically connected
+through the belt rigging:
+
+- The first stage was clamped to the static frame.
+- The second stage was clamped to the first stage.
+- The third-stage carriage was clamped to the second stage.
+
+This let the stages extend together while staying synchronized.
+
+<div class="note">
+<b>Two motors → one.</b> The elevator was originally intended to use two motors with a
+synchronization shaft connecting the two sides. During development we determined that a single
+motor provided sufficient performance while reducing weight. The final elevator was driven by
+<b>one motor through a 20:1 gear ratio</b>, with the original synchronization shaft repurposed to
+mechanically drive both sides — saving weight for other robot subsystems.
+</div>
+
+### Structural design and packaging
+
+The elevator was built around aluminum V-slot extrusion, which let me mount custom bearing blocks
+and other components directly to the extrusion while keeping adjustability during assembly. The
+extrusion-based architecture made it easier to position and adjust components, install custom
+bearing blocks, slide components in during assembly, and modify individual parts without
+redesigning the whole elevator.
+
+Packaging mattered especially here: the elevator had to stay inside the 3 ft 6 in. starting-height
+constraint while still extending far enough to reach the high scoring target.
+</section>
+
+<section id="problems">
+<span class="eyebrow">04 — Problem → solution → result</span>
+<h2>What broke, and what I did about it</h2>
+
+Most of the major problems came from component interference, belt tension, or localized structural
+loading. Rather than treating the elevator as one fixed design, I iterated individual components as
+problems emerged during testing.
+
+<div class="psr-list">
+<PSR
+  title="Belt tensioning was impractical to adjust"
+  problem="The inner-stage belts were originally tensioned with a cable clamp that had to be manually pulled into position. It was difficult to adjust and occupied too much space."
+  solution="I redesigned the tensioner around a 3D-printed component with a press-fit locknut and threaded adjustment screw; tightening the screw pulls the belt into tension. For the outer-stage belts I used a simpler method — zip ties connecting the belts, pulled together to generate tension."
+  result="Substantially better adjustment and repeatability than the cable clamp. The belts stayed tensioned enough to lift the stages while keeping both sides of the elevator synchronized."
+/>
+<PSR
+  title="The custom pulley could be broken by hand"
+  problem="My first custom pulley versions lacked internal structure and were printed in PLA — weak enough that the pulley could actually be fractured by hand under relatively small loads."
+  solution="I redesigned the pulley with significantly more internal structure and switched the material to carbon-fiber PLA."
+  result="A substantially stronger component capable of handling the belt tension — one of several parts iterated independently rather than triggering a full redesign."
+/>
+<PSR
+  title="Belt clamps skipped teeth under load"
+  problem="The original belt clamps experienced tooth skipping when loaded."
+  solution="I redesigned the clamps to provide better engagement with the belt."
+  result="The skipping problem was eliminated."
+/>
+<PSR
+  title="The first-stage pulley bent under belt tension"
+  problem="The pulley supporting the first stage initially deflected under the tension generated by the elevator belt."
+  solution="I added a steel support bracket to reinforce the pulley."
+  result="The pulley no longer deflected under load."
+/>
+<PSR
+  title="The motor mount cracked during testing"
+  problem="The original motor mount was 3D printed in PLA and developed a crack during testing."
+  solution="The mount was redesigned and replaced with an FDM-printed component."
+  result="A replacement mount that survived continued testing."
+/>
+</div>
+</section>
+
+<section id="manufacturing">
+<span class="eyebrow">05 — Manufacturing</span>
+<h2>Additive and subtractive, together</h2>
+
+<div class="split rev">
+  <Fig src={img('elevator/robot-full-extension.png')} alt="The three-stage elevator fully extended on the competition robot in the shop"
+       label="Assembly" caption="The completed elevator at full extension on the competition robot." />
+  <div class="txt">
+    <p>The elevator's aluminum plates were plasma cut, and many components were then machined on a
+    mill for precise holes, mounting features, and interfaces.</p>
+    <p>Several components used hybrid manufacturing. The belt clamps, for example, combined a
+    3D-printed component with integrated belt teeth and a plasma-cut aluminum plate: the printed
+    part provided the required geometry while the aluminum provided structural support.</p>
+    <p>Combining additive and subtractive manufacturing let components be iterated quickly without
+    standing up an entirely new manufacturing process for every revision.</p>
+    <p class="small muted">I performed the design, CAD, assembly, and testing; other team members
+    assisted with manufacturing.</p>
+  </div>
+</div>
+</section>
+
+<section id="camera">
+<span class="eyebrow">06 — Systems integration</span>
+<h2>Camera integration</h2>
+
+I also designed a custom camera mount as part of the elevator and robot architecture.
+
+The original camera requirements called for separate cameras for intake detection and
+elevator-based targeting. During development I recognized that the elevator could not be operating
+in the same position as the ground intake, which made it possible to combine the functions — so I
+integrated both requirements into a **single Limelight 4**, reducing hardware and packaging.
+
+The camera location was later moved to the opposite side of the robot for better visibility for
+reef localization and AprilTag targeting. That required coordinating the camera's position with
+the elevator's motion, robot packaging, field of view, wiring, and access to the camera's controls.
+</section>
+
+<section id="evolution">
+<span class="eyebrow">07 — Design evolution</span>
+<h2>Original → strategy change → final</h2>
+
+<div class="timeline">
+  <div>
+    <h4>Original configuration</h4>
+    <p>Designed around scoring coral on the reef: variable vertical positioning for several scoring
+    heights, with a third-stage carriage intended to carry the coral end-effector. Two motors and a
+    synchronization shaft.</p>
+  </div>
+  <div>
+    <h4>Strategy change</h4>
+    <p>The team switched to scoring algae on the high net. With the net ~7 ft up, the elevator no
+    longer needed to repeatedly hit several heights — it could be optimized around reliably
+    reaching one high target.</p>
+  </div>
+  <div>
+    <h4>Final configuration</h4>
+    <p>The carriage was removed and the elevator's extension was combined with the pivoting motion
+    of the arm to reach the scoring position. A single motor at 20:1 drove both sides through the
+    repurposed sync shaft, eliminating unnecessary components and adapting packaging to the new
+    robot architecture.</p>
+  </div>
+</div>
+</section>
+
+<section id="testing">
+<span class="eyebrow">08 — Testing & iteration</span>
+<h2>Iterating parts, not the whole machine</h2>
+
+The elevator was not developed through repeated complete redesigns. I iterated individual
+components as problems appeared during fabrication and testing:
+
+- Redesigning belt clamps after tooth skipping occurred
+- Reinforcing the first-stage pulley after it bent under belt tension
+- Redesigning the belt tensioning mechanism after the cable-clamp method proved impractical
+- Increasing the structural support of the custom pulley, and switching it to carbon-fiber PLA
+- Replacing the cracked motor mount
+- Removing the carriage after the game strategy changed
+- Reworking the camera mounting architecture as robot requirements evolved
+
+Once the individual components were resolved, the complete elevator was assembled and tested
+before deployment on the competition robot.
+</section>
+
+<section id="result">
+<span class="eyebrow">09 — Result</span>
+<h2>On the competition robot</h2>
+
+The completed elevator was successfully integrated into the competition robot and used as part of
+the final robot architecture. The final single-motor configuration provided sufficient lifting
+performance while reducing the elevator's weight compared with the original two-motor design.
+
+The mechanism combined three-stage cascading extension with the pivoting motion of the scoring
+mechanism to reach the ~7-ft-high algae scoring target — while remaining within the robot's
+starting-height and total weight constraints.
+</section>

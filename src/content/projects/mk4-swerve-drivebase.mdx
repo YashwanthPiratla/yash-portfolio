@@ -1,0 +1,132 @@
+---
+title: MK4 Swerve Drivebase & Robot Architecture
+subtitle: Mechanical Design · CAD · Packaging · Manufacturing
+summary: The complete mechanical architecture for a 2026 FRC robot — chassis, frame rails, bellypan, and an under-bellypan electronics layout that freed the upper chassis for the elevator, climber, and under-bumper intake.
+disciplines: ['Mechanical Design', 'CAD', 'Packaging', 'Systems Integration', 'Manufacturing']
+kind: mechanical
+order: 3
+season: 2026 FRC season
+hero: drivebase/cad-iso.png
+heroContain: true
+thumbnail: drivebase/cad-iso.png
+stats:
+  - { value: '4', label: 'MK4 swerve modules' }
+  - { value: '115 lb', label: 'Robot weight limit' }
+  - { value: '1', label: 'Panel to remove for full electrical access' }
+  - { value: '3 mo', label: 'FRC build season' }
+---
+import Fig from '../../components/Fig.astro';
+import { img } from '../../lib/images';
+
+<section id="overview">
+<span class="eyebrow">01 — Project overview</span>
+<h2>Designing the platform everything else mounts to</h2>
+
+I designed the complete mechanical architecture for our 2026 FIRST Robotics Competition robot
+around an **MK4 swerve drivetrain**. I was responsible for the chassis design, frame rails, cross
+members, battery mount, bellypan, bumper mounting system, electronics packaging, and the subsystem
+interfaces.
+
+The goal was a lightweight, serviceable platform capable of integrating the drivetrain, elevator,
+intake, and climbing mechanisms within the constraints of the FRC game.
+
+<Fig src={img('drivebase/cad-iso.png')} alt="Isometric CAD view of the MK4 swerve chassis with bellypan and superstructure mounts" contain
+     label="CAD" caption="The chassis in Onshape: frame rails, cross members, bellypan, battery mount, and the mounting interfaces for the superstructure." />
+</section>
+
+<section id="requirements">
+<span class="eyebrow">02 — Design requirements</span>
+<h2>What the chassis had to do</h2>
+
+<div class="table-wrap">
+<table class="spec-table">
+  <thead><tr><th>Requirement</th><th>Detail</th></tr></thead>
+  <tbody>
+    <tr><td>Drivetrain</td><td>Integrate four MK4 swerve modules into a rigid, manufacturable chassis</td></tr>
+    <tr><td>Weight</td><td>Keep the complete robot under the 115 lb FRC weight limit</td></tr>
+    <tr><td>Packaging</td><td>Package drivetrain, battery, electronics, intake, elevator, and climber within legal robot dimensions</td></tr>
+    <tr><td>Intake</td><td>Reserve space for an under-bumper intake while maximizing volume for the superstructure</td></tr>
+    <tr><td>Serviceability</td><td>Be easily serviced between competition matches</td></tr>
+    <tr><td>Schedule</td><td>Design, manufacture, assemble, and test within the 3-month build season</td></tr>
+  </tbody>
+</table>
+</div>
+</section>
+
+<section id="electronics">
+<span class="eyebrow">03 — Major engineering decision</span>
+<h2>Under-bellypan electronics</h2>
+
+<div class="split rev">
+  <Fig src={img('drivebase/cad-bellypan-electronics.png')} alt="Top-down CAD of the bellypan showing roboRIO, power distribution, motor controllers, and battery placement"
+       label="CAD" caption="The electrical layout: power distribution, roboRIO, motor controllers, and battery — packaged beneath the bellypan rather than above it." />
+  <div class="txt">
+    <p>One of the primary design goals was maximizing usable space for robot mechanisms. To do
+    that, I located the roboRIO, motor controllers, power distribution hardware, and wiring
+    <b>beneath the chassis</b> rather than on top of it.</p>
+    <ul>
+      <li>Freed the upper chassis for the elevator, climber, and other mechanisms</li>
+      <li>Created the packaging volume required for the under-bumper intake, preventing interference with the electrical system</li>
+      <li>Simplified wire routing — nearly all wiring runs beneath the robot instead of through moving mechanisms</li>
+      <li>Improved serviceability: the complete electrical system is accessible by removing only the bellypan, not by disassembling subsystems</li>
+      <li>Integrated a dedicated access hole for the roboRIO power button, for quick resets during testing and competition without removing panels</li>
+      <li>Lowered the robot's center of gravity as an additional benefit, improving stability</li>
+    </ul>
+  </div>
+</div>
+</section>
+
+<section id="packaging">
+<span class="eyebrow">04 — Packaging & system integration</span>
+<h2>Every subsystem planned together</h2>
+
+The primary architectural challenge was packaging all major subsystems within the limited chassis
+volume while complying with FRC size constraints. The robot uses an **under-bumper intake**, which
+required significant space beneath the front of the chassis — so the drivetrain, battery,
+electronics, elevator, and climbing mechanism were all planned together during CAD rather than
+independently.
+
+Component placement was coordinated to reserve sufficient volume for the intake throughout its
+motion, prevent interference between mechanisms, simplify subsystem integration, maintain access
+for manufacturing and maintenance, and keep the robot balanced while supporting every mechanism.
+</section>
+
+<section id="manufacturing">
+<span class="eyebrow">05 — Manufacturing</span>
+<h2>From Onshape to a rolling chassis</h2>
+
+<div class="split">
+  <div class="txt">
+    <p>I generated manufacturing-ready CAD in <b>Onshape</b> and fabricated structural robot
+    components using CNC and manual machining equipment before assembling and integrating the
+    complete competition robot.</p>
+    <p>The frame was designed to provide a rigid structural foundation while maximizing usable
+    internal volume for mechanisms and simplifying manufacturing and assembly.</p>
+  </div>
+  <Fig src={img('drivebase/chassis-build.png')} alt="The chassis during assembly with four swerve modules mounted and wiring routed under the bellypan"
+       label="Build" caption="The chassis during assembly: four swerve modules mounted to the frame rails, with wiring routed beneath the bellypan." />
+</div>
+</section>
+
+<section id="result">
+<span class="eyebrow">06 — Result</span>
+<h2>Competition performance</h2>
+
+The drivebase and chassis architecture were successfully integrated into the final competition
+robot and used throughout the 2026 competition season. The chassis provided a reliable mechanical
+foundation while supporting all major subsystems and maintaining clean electrical routing and
+straightforward serviceability.
+</section>
+
+<section id="lessons">
+<span class="eyebrow">07 — Lessons learned</span>
+<h2>Designing a robot, not a drivetrain</h2>
+
+This project taught me that designing a competition robot extends far beyond integrating
+drivetrain modules. Every subsystem affected the others, requiring constant tradeoffs between
+packaging, structural rigidity, manufacturability, serviceability, wiring, and weight distribution.
+
+If I redesigned the chassis, I would continue prioritizing serviceability while exploring
+additional opportunities for weight reduction and modular subsystem mounting to simplify future
+iterations.
+</section>

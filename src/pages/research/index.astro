@@ -1,0 +1,30 @@
+---
+import Base from '../../layouts/Base.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import { getCollection } from 'astro:content';
+const items = (await getCollection('research')).sort((a, b) => a.data.order - b.data.order);
+---
+<Base title="Research" description="Research and technical projects by Yashwanth Piratla — wearable health machine learning with Apple HealthKit, SwiftUI, and Core ML.">
+  <section class="section">
+    <div class="wrap">
+      <span class="eyebrow accent">Research & technical projects</span>
+      <h1>Research</h1>
+      <p class="lede">Technical work that follows a research arc rather than a mechanical one:
+      question, data, system, methodology, results, and honest limitations.</p>
+      <div class="grid two" style="margin-top: 2.5rem">
+        {items.map(p => (
+          <ProjectCard
+            href={`/research/${p.id}`}
+            title={p.data.title}
+            summary={p.data.summary}
+            disciplines={p.data.disciplines}
+            thumbnail={p.data.thumbnail}
+            status={p.data.status}
+            contain={true}
+            kindLabel="Collaborative research"
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+</Base>

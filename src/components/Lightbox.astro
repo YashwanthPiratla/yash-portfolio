@@ -1,0 +1,21 @@
+<div class="lb" id="lightbox" role="dialog" aria-modal="true" aria-label="Enlarged image">
+  <button class="close" aria-label="Close">Esc ✕</button>
+  <img alt="" />
+  <figcaption></figcaption>
+</div>
+<script>
+  const lb = document.getElementById('lightbox')!;
+  const img = lb.querySelector('img')!;
+  const cap = lb.querySelector('figcaption')!;
+  const close = () => { lb.classList.remove('open'); img.src = ''; document.body.style.overflow = ''; };
+  document.querySelectorAll<HTMLImageElement>('.zoomable img, img.zoomable').forEach(el => {
+    el.addEventListener('click', () => {
+      img.src = el.currentSrc || el.src; img.alt = el.alt;
+      const c = el.closest('figure')?.querySelector('figcaption')?.textContent ?? el.alt;
+      cap.textContent = c || '';
+      lb.classList.add('open'); document.body.style.overflow = 'hidden';
+    });
+  });
+  lb.addEventListener('click', close);
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+</script>

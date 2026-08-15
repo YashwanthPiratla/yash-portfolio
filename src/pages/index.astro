@@ -1,0 +1,122 @@
+---
+import Base from '../layouts/Base.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import { img } from '../lib/images';
+import headshot from '../assets/img/headshot.png';
+
+const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
+const research = (await getCollection('research')).sort((a, b) => a.data.order - b.data.order);
+const heroImg = img('elevator/robot-full-extension.png');
+---
+<Base>
+  <section class="hero">
+    <div class="wrap inner">
+      <div class="copy">
+        <span class="eyebrow accent">Mechanical Engineering — UC Berkeley</span>
+        <h1>Yashwanth Piratla</h1>
+        <p class="lede">Mechanical engineering student focused on mechanical design, robotics, CAD,
+        manufacturing, and hands-on engineering.</p>
+        <p class="muted">I don't just know CAD — I design mechanisms, build them, test them, find
+        out why they fail, redesign them, and make them work.</p>
+        <div class="cta">
+          <a class="btn primary" href="/projects">Engineering Projects</a>
+          <a class="btn" href="/research">Research</a>
+          <a class="btn" href="/Yash_Piratla_Resume.pdf" target="_blank" rel="noopener">Resume (PDF)</a>
+        </div>
+        <div class="links small">
+          <a href="https://github.com/YashwanthPiratla" target="_blank" rel="noopener">GitHub ↗</a>
+          <a href="https://www.linkedin.com/in/yashwanth-piratla-5115b826/" target="_blank" rel="noopener">LinkedIn ↗</a>
+          <a href="mailto:ypiratla@gmail.com">ypiratla@gmail.com</a>
+        </div>
+      </div>
+      <figure class="shot zoomable">
+        <Image src={heroImg} alt="A three-stage cascading elevator at full extension on an FRC competition robot" width={1200} loading="eager" format="webp" quality={82} />
+        <figcaption class="small muted">Three-stage cascading elevator at full extension — 2025 FRC robot.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow accent">Engineering projects</span>
+          <h2>Mechanical design, built and tested</h2>
+        </div>
+        <p><a href="/projects">All projects →</a></p>
+      </div>
+      <div class="grid two">
+        {projects.map(p => (
+          <ProjectCard href={`/projects/${p.id}`} title={p.data.title} summary={p.data.summary}
+            disciplines={p.data.disciplines} thumbnail={p.data.thumbnail} status={p.data.status}
+            contain={p.data.thumbnail?.includes('cad')} kindLabel={p.data.season} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow accent">Research</span>
+          <h2>Technical & research work</h2>
+        </div>
+        <p><a href="/research">All research →</a></p>
+      </div>
+      <div class="grid two">
+        {research.map(p => (
+          <ProjectCard href={`/research/${p.id}`} title={p.data.title} summary={p.data.summary}
+            disciplines={p.data.disciplines} thumbnail={p.data.thumbnail} status={p.data.status}
+            contain={true} kindLabel="Collaborative research" />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap about">
+      <figure class="portrait">
+        <Image src={headshot} alt="Portrait of Yashwanth Piratla" width={420} format="webp" quality={85} />
+      </figure>
+      <div>
+        <span class="eyebrow accent">About</span>
+        <h2>Engineering, hands on the hardware</h2>
+        <p>I'm a mechanical engineering student at the University of California, Berkeley. Most of
+        my engineering experience comes from four years of FIRST Robotics Competition, where I led
+        a 40-member team and designed the mechanisms, drivetrain architecture, and robot packaging
+        that had to survive real matches.</p>
+        <p>My work sits where mechanical design meets manufacturing and testing: CAD in Onshape and
+        SolidWorks, CNC and manual machining, plasma cutting, 3D printing, and the iteration cycle
+        that follows the first time a part breaks.</p>
+        <div class="cta">
+          <a class="btn" href="/about">More about me</a>
+          <a class="btn" href="/contact">Get in touch</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .hero { padding: clamp(2.5rem, 6vw, 5rem) 0 clamp(2rem, 4vw, 3rem); border-bottom: 1px solid var(--line); }
+  .inner { display: grid; grid-template-columns: 1.05fr 1fr; gap: clamp(2rem, 5vw, 4rem); align-items: center; }
+  h1 { margin: 0.5rem 0 0.75rem; }
+  .cta { display: flex; flex-wrap: wrap; gap: 0.6rem; margin: 1.5rem 0 1rem; }
+  .links { display: flex; flex-wrap: wrap; gap: 1.25rem; color: var(--ink-3); }
+  .links a { color: var(--ink-2); }
+  .shot { margin: 0; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; background: var(--bg-2); cursor: zoom-in; }
+  .shot img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 40%; }
+  .shot figcaption { padding: 0.6rem 0.9rem; border-top: 1px solid var(--line); background: var(--bg); }
+  .about { display: grid; grid-template-columns: 280px 1fr; gap: clamp(1.5rem, 4vw, 3rem); align-items: start; }
+  .portrait { margin: 0; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+  .portrait img { width: 100%; }
+  @media (max-width: 880px) {
+    .inner { grid-template-columns: 1fr; }
+    .shot img { aspect-ratio: 3 / 2; }
+    .about { grid-template-columns: 1fr; }
+    .portrait { max-width: 220px; }
+  }
+</style>

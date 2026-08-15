@@ -1,0 +1,10 @@
+---
+/** Problem → Solution → Result row. */
+interface Props { title: string; problem: string; solution: string; result: string; }
+const { title, problem, solution, result } = Astro.props;
+---
+<div class="psr">
+  <div><span class="eyebrow accent">Problem</span><div class="t">{title}</div><p>{problem}</p></div>
+  <div><span class="eyebrow">Solution</span><p>{solution}</p></div>
+  <div><span class="eyebrow">Result</span><p>{result}</p></div>
+</div>

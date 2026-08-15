@@ -1,0 +1,40 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="Contact" description="Get in touch with Yashwanth Piratla — mechanical engineering student at UC Berkeley. Email, LinkedIn, and GitHub.">
+  <section class="section">
+    <div class="wrap">
+      <span class="eyebrow accent">Contact</span>
+      <h1>Get in touch</h1>
+      <p class="lede">I'm looking for mechanical engineering internships in robotics, aerospace,
+      automotive, manufacturing, defense, and hardware. The fastest way to reach me is email.</p>
+      <div class="grid three" style="margin-top:2.5rem">
+        <a class="ccard" href="mailto:ypiratla@gmail.com">
+          <span class="eyebrow">Email</span>
+          <div class="v">ypiratla@gmail.com</div>
+          <div class="muted small">Best for internship and project inquiries</div>
+        </a>
+        <a class="ccard" href="https://www.linkedin.com/in/yashwanth-piratla-5115b826/" target="_blank" rel="noopener">
+          <span class="eyebrow">LinkedIn</span>
+          <div class="v">yashwanth-piratla ↗</div>
+          <div class="muted small">Professional background and updates</div>
+        </a>
+        <a class="ccard" href="https://github.com/YashwanthPiratla" target="_blank" rel="noopener">
+          <span class="eyebrow">GitHub</span>
+          <div class="v">YashwanthPiratla ↗</div>
+          <div class="muted small">Code and technical projects</div>
+        </a>
+      </div>
+      <div class="note" style="margin-top:2rem">
+        <b>Resume:</b> <a href="/Yash_Piratla_Resume.pdf" target="_blank" rel="noopener">download the PDF</a>,
+        or read the full engineering case studies under <a href="/projects">Engineering Projects</a>
+        and <a href="/research">Research</a>.
+      </div>
+    </div>
+  </section>
+</Base>
+<style>
+  .ccard { display: block; border: 1px solid var(--line); border-radius: var(--radius); padding: 1.25rem; background: var(--bg); transition: border-color .15s; }
+  .ccard:hover { border-color: var(--ink-3); color: inherit; }
+  .ccard .v { font-weight: 650; font-size: 1.05rem; margin: 0.35rem 0 0.3rem; word-break: break-word; }
+</style>

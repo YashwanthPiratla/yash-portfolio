@@ -1,0 +1,38 @@
+---
+import Base from '../layouts/Base.astro';
+const PDF = '/Yash_Piratla_Resume.pdf';
+---
+<Base title="Resume" description="Resume of Yashwanth Piratla — mechanical engineering student at UC Berkeley. Download as PDF.">
+  <section class="section">
+    <div class="wrap">
+      <div class="head">
+        <div>
+          <span class="eyebrow accent">Resume</span>
+          <h1>Yashwanth Piratla</h1>
+          <p class="lede">A one-page technical resume. The project pages on this site expand on
+          these bullets with the full engineering story.</p>
+        </div>
+        <div class="cta">
+          <a class="btn primary" href={PDF} download>Download PDF</a>
+          <a class="btn" href={PDF} target="_blank" rel="noopener">Open in new tab</a>
+        </div>
+      </div>
+      <div class="viewer">
+        <object data={PDF} type="application/pdf" aria-label="Resume PDF">
+          <div class="fallback">
+            <p>Your browser can't display the PDF inline.</p>
+            <a class="btn primary" href={PDF} download>Download the resume (PDF)</a>
+          </div>
+        </object>
+      </div>
+    </div>
+  </section>
+</Base>
+<style>
+  .head { display: flex; justify-content: space-between; align-items: flex-end; gap: 2rem; flex-wrap: wrap; margin-bottom: 2rem; }
+  .cta { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+  .viewer { border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; background: var(--bg-2); }
+  object { width: 100%; height: min(1100px, 130vw); display: block; border: 0; }
+  .fallback { padding: 3rem 1.5rem; text-align: center; }
+  @media (max-width: 700px) { object { height: 90vh; } }
+</style>

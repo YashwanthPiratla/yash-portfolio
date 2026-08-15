@@ -1,0 +1,103 @@
+---
+import Base from '../layouts/Base.astro';
+import { Image } from 'astro:assets';
+import headshot from '../assets/img/headshot.png';
+---
+<Base title="About" description="Yashwanth Piratla — mechanical engineering student at UC Berkeley, FRC team president, with experience in mechanical design, CAD, manufacturing, and systems integration.">
+  <section class="section">
+    <div class="wrap top">
+      <div>
+        <span class="eyebrow accent">About</span>
+        <h1>Yashwanth Piratla</h1>
+        <p class="lede">Mechanical engineering student focused on mechanical design, robotics, CAD,
+        manufacturing, and hands-on engineering.</p>
+        <p>I'm pursuing a B.S. in Mechanical Engineering at the University of California, Berkeley.
+        Most of my engineering experience comes from FIRST Robotics Competition — four years on
+        Team 4131, the last of them as president of a 40-member team — where the deadline is a
+        competition and the test is whether the mechanism survives the match.</p>
+        <p>What I like about mechanism design is the loop: define the requirement, package it into
+        the space you actually have, manufacture it, watch it fail in a way you didn't predict, and
+        redesign the one part that's wrong instead of starting over. Most of my project pages are
+        organized around that loop, because that's where the engineering actually happens.</p>
+        <div class="cta">
+          <a class="btn primary" href="/Yash_Piratla_Resume.pdf" target="_blank" rel="noopener">Download resume (PDF)</a>
+          <a class="btn" href="/contact">Contact</a>
+        </div>
+      </div>
+      <figure class="portrait">
+        <Image src={headshot} alt="Portrait of Yashwanth Piratla" width={480} format="webp" quality={86} />
+      </figure>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <span class="eyebrow accent">Background</span>
+      <h2>Education & experience</h2>
+      <div class="table-wrap" style="margin-top:1.5rem">
+        <table class="spec-table">
+          <thead><tr><th>Role</th><th>Organization</th><th>Focus</th><th>When</th></tr></thead>
+          <tbody>
+            <tr><td>B.S. Mechanical Engineering</td><td>University of California, Berkeley</td><td>Mechanical engineering</td><td>Expected May 2029</td></tr>
+            <tr><td>President</td><td>Liberty Robotics — FRC Team 4131</td><td>Led a 40-member team across robot development, mechanical design, manufacturing, outreach, and technical training</td><td>Apr 2022 – May 2026</td></tr>
+            <tr><td>Research Intern</td><td>Penn State Research (remote)</td><td>iOS application in Swift with Apple HealthKit for wearable health data; contributed to a technical research paper</td><td>Jun 2024 – Present</td></tr>
+            <tr><td>Engineering Intern</td><td>Verveba Telecom, Dallas TX</td><td>Test cases for a network organization tool used by U.S. carriers; telecom system analysis and patent development support in a Scrum/Jira workflow</td><td>Aug 2024</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <span class="eyebrow accent">Capabilities</span>
+      <h2>Technical skills</h2>
+      <div class="grid three" style="margin-top:1.5rem">
+        <div class="skillcard">
+          <h3>CAD & mechanical</h3>
+          <div class="tags">
+            <span class="tag">Onshape</span><span class="tag">SolidWorks</span><span class="tag">Mechanical Design</span>
+            <span class="tag">Robotics</span><span class="tag">Systems Integration</span><span class="tag">FEA</span>
+          </div>
+        </div>
+        <div class="skillcard">
+          <h3>Manufacturing</h3>
+          <div class="tags">
+            <span class="tag">CNC Machining</span><span class="tag">Manual Machining</span><span class="tag">Precision Machining</span>
+            <span class="tag">Fabrication</span><span class="tag">Plasma Cutting</span><span class="tag">3D Printing</span>
+          </div>
+        </div>
+        <div class="skillcard">
+          <h3>Programming</h3>
+          <div class="tags">
+            <span class="tag">Python</span><span class="tag">C++</span><span class="tag">Java</span>
+            <span class="tag">Swift</span><span class="tag">JavaScript</span><span class="tag">React</span><span class="tag">HTML</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <span class="eyebrow accent">Recognition</span>
+      <h2>Honors & awards</h2>
+      <div class="grid three" style="margin-top:1.5rem">
+        <div class="award"><div class="v">DECA Washington State Champion</div><div class="l">2024, 2025</div></div>
+        <div class="award"><div class="v">FRC World Championship Qualifier</div><div class="l">2023, 2024</div></div>
+        <div class="award"><div class="v">FRC Sustainability Award</div><div class="l">2024</div></div>
+      </div>
+    </div>
+  </section>
+</Base>
+<style>
+  .top { display: grid; grid-template-columns: 1fr 320px; gap: clamp(1.5rem, 4vw, 3rem); align-items: start; }
+  .portrait { margin: 0; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+  .cta { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-top: 1.5rem; }
+  .skillcard { border: 1px solid var(--line); border-radius: var(--radius); padding: 1.1rem 1.2rem; background: var(--bg); }
+  .skillcard h3 { font-size: 1rem; margin-bottom: 0.75rem; }
+  .award { border: 1px solid var(--line); border-radius: var(--radius); padding: 1.1rem 1.2rem; background: var(--bg-2); }
+  .award .v { font-weight: 600; }
+  .award .l { font-family: var(--mono); font-size: 0.8rem; color: var(--ink-3); margin-top: 0.25rem; }
+  @media (max-width: 800px) { .top { grid-template-columns: 1fr; } .portrait { max-width: 240px; } }
+</style>

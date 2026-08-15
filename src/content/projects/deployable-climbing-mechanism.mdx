@@ -1,0 +1,161 @@
+---
+title: Deployable Multi-Level Climbing Mechanism
+subtitle: Mechanical Design · CAD · FEA · FRC
+summary: A deployable climber that carries the full weight of the robot up multiple bars on alternating carbon-fiber hooks — packaged into three inches of space between the swerve modules and shooter.
+disciplines: ['Mechanical Design', 'CAD', 'FEA', 'Power Transmission', 'Testing']
+kind: mechanical
+order: 2
+season: 2026 FRC season
+hero: climber/cad-iso.png
+heroContain: true
+thumbnail: climber/cad-iso.png
+stats:
+  - { value: '115 lb', label: 'Robot weight supported' }
+  - { value: '30 in', label: 'Maximum extension limit' }
+  - { value: '27 in', label: 'Height of first climbing bar' }
+  - { value: '3 in', label: 'Packaging width per side' }
+---
+import Fig from '../../components/Fig.astro';
+import PSR from '../../components/PSR.astro';
+import { img } from '../../lib/images';
+
+<section id="overview">
+<span class="eyebrow">01 — Project overview</span>
+<h2>Climbing multiple bars, carrying the whole robot</h2>
+
+I designed a custom deployable climbing mechanism for our 2026 FIRST Robotics Competition robot to
+complete the multi-bar endgame climb. The system uses alternating static and moving hooks to
+sequentially ascend multiple horizontal bars while staying inside strict FRC size, weight, and
+timing constraints.
+
+I was responsible for the **mechanical design, CAD, and the engineering decisions** behind the
+mechanism.
+
+<div class="split">
+  <div class="txt">
+    <h3>The constraint that shaped everything</h3>
+    <p>The climber had to start completely inside the robot frame perimeter, reach a first bar
+    27 in. above the floor without exceeding the 30 in. extension limit, and fit into the gaps
+    between the swerve drives, drivebase, and shooter — about three inches of width on each
+    side.</p>
+    <p>Everything else — the pivot architecture, the transmission split, the hook geometry —
+    follows from packaging a full-robot-weight load path into that space.</p>
+  </div>
+  <Fig src={img('climber/cad-front.png')} alt="Front view CAD of the climbing mechanism showing the two vertical rails and drive motors" contain
+       label="CAD" caption="Front view: two linear rails, the pivot drive motors low in the chassis, and the intermediate shaft between them." />
+</div>
+</section>
+
+<section id="requirements">
+<span class="eyebrow">02 — Design requirements</span>
+<h2>What the mechanism had to do</h2>
+
+<div class="table-wrap">
+<table class="spec-table">
+  <thead><tr><th>Requirement</th><th>Detail</th></tr></thead>
+  <tbody>
+    <tr><td>Function</td><td>Complete the 2026 FRC multi-bar climbing challenge</td></tr>
+    <tr><td>Load</td><td>Support the full weight of the robot while climbing</td></tr>
+    <tr><td>Weight</td><td>Remain under the FRC robot weight limit of 115 lb</td></tr>
+    <tr><td>Start position</td><td>Begin completely inside the robot frame perimeter, per game rules</td></tr>
+    <tr><td>Extension</td><td>Stay within the 30 in. maximum extension while reaching a first bar 27 in. above the floor</td></tr>
+    <tr><td>Packaging</td><td>Fit between the swerve drives, drivebase, and shooter — 3 in. on each side</td></tr>
+    <tr><td>Schedule</td><td>Design, manufacture, assemble, and test within the team's 3-month build season</td></tr>
+  </tbody>
+</table>
+</div>
+</section>
+
+<section id="architecture">
+<span class="eyebrow">03 — Major engineering decisions</span>
+<h2>Pivot, transmission, and load path</h2>
+
+### Dead-axle pivot
+
+The climber pivot experiences some of the highest loads on the robot while operating in a very
+constrained packaging envelope. I selected a **dead-axle pivot** because it provides a rigid load
+path while simplifying the bearing arrangement. That architecture also let the drivetrain be split
+into two power-reduction stages, reducing the amount of reduction required in the motor gearbox.
+
+### Power transmission
+
+<div class="split rev">
+  <Fig src={img('climber/cad-top-transparent.png')} alt="Transparent top-down CAD view showing the belt reduction, intermediate shaft, and gear reduction into the climber pivot"
+       label="CAD" caption="Transparent top view: belt reduction from the motor to the intermediate shaft, then a gear reduction into the climber pivot." />
+  <div class="txt">
+    <p>The pivot is driven by a <b>belt reduction</b> between the motor and an intermediate shaft,
+    followed by a <b>gear reduction</b> from that shaft to the climber pivot.</p>
+    <p>The belt stage was selected because the expected loading did not justify a chain drive, and
+    belts allowed predictable center-to-center spacing with minimal tensioning requirements. The
+    gear stage provided a compact way to transfer torque within the limited packaging space
+    available around the pivot.</p>
+    <p>The climbing motion itself is driven by <b>chain</b> — it has to support the full weight of
+    the robot during ascent.</p>
+  </div>
+</div>
+
+### Hooks
+
+The mechanism uses alternating static and moving **carbon fiber hooks** to climb multiple bars
+sequentially. Carbon fiber was selected to minimize weight while maintaining enough strength to
+support the robot. I performed minor **finite element analysis (FEA)** during the design process to
+evaluate the structural performance of the hook geometry.
+
+### Structural design
+
+Linear rails and elevator bearing blocks were selected because they are rated to withstand the
+large horizontal loads generated when the climber pivots under the robot's weight. Heavy
+components, including motors, were intentionally packaged as low as possible in the robot to
+maintain a low center of gravity and improve climbing stability.
+</section>
+
+<section id="problems">
+<span class="eyebrow">04 — Problem → solution → result</span>
+<h2>Testing the hook interaction</h2>
+
+<div class="psr-list">
+<PSR
+  title="Passive hook operation was inconsistent"
+  problem="During testing, relying on passive hook operation proved unreliable — the hooks did not consistently disengage and advance to the next bar."
+  solution="I added a servo-actuated hook retraction system to actively retract the hooks during the climbing sequence."
+  result="Reliable hook retraction as part of the climbing sequence instead of depending on passive motion."
+/>
+<PSR
+  title="Hook geometry had to satisfy height and release at once"
+  problem="The static hook geometry had to meet the game's height requirements while still letting the hooks reliably disengage and advance to the next climbing bar."
+  solution="Extensive iterative testing on the static hook geometry, supported by FEA on the hook structure."
+  result="A hook geometry that satisfies the height requirement and releases predictably during the sequence."
+/>
+</div>
+</section>
+
+<section id="assembly">
+<span class="eyebrow">05 — Assembly</span>
+<h2>Off the screen and onto the bench</h2>
+
+<div class="split">
+  <div class="txt">
+    <p>The mechanism as assembled: the two linear rails and bearing blocks that take the horizontal
+    load, the chain runs that carry the robot's weight during ascent, and the motors packaged low
+    in the chassis.</p>
+    <p>The complete assembly had to be designed, manufactured, assembled, and tested inside the
+    team's three-month build season.</p>
+  </div>
+  <Fig src={img('climber/bench-assembly.png')} alt="The assembled climbing mechanism on a workbench, showing linear rails, chain runs, and hooks"
+       label="Assembly" caption="The assembled climber on the bench — linear rails, chain drive, and the alternating hook stack." />
+</div>
+</section>
+
+<section id="lessons">
+<span class="eyebrow">06 — Lessons learned</span>
+<h2>What I would do differently</h2>
+
+This project reinforced the importance of balancing mechanical performance, packaging constraints,
+manufacturability, and overall robot weight.
+
+If I were to redesign the mechanism, I would:
+
+- Focus on **reducing mass earlier** in the design process
+- **Simplify the hook architecture**
+- Validate critical climbing interactions through **earlier prototype testing**
+</section>

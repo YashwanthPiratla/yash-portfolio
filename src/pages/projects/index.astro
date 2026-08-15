@@ -1,0 +1,31 @@
+---
+import Base from '../../layouts/Base.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import { getCollection } from 'astro:content';
+const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
+---
+<Base title="Engineering Projects" description="Mechanical design, CAD, manufacturing and robotics case studies by Yashwanth Piratla — a three-stage cascading elevator, a deployable climbing mechanism, an MK4 swerve drivebase, and a 5-inch FPV drone.">
+  <section class="section">
+    <div class="wrap">
+      <span class="eyebrow accent">Engineering projects</span>
+      <h1>Things I designed, built, broke, and fixed</h1>
+      <p class="lede">Each case study follows the same arc — requirements, engineering decisions,
+      what failed under test, and what I changed. Numbers and methods come from the project
+      documentation, not from memory.</p>
+      <div class="grid two" style="margin-top: 2.5rem">
+        {projects.map(p => (
+          <ProjectCard
+            href={`/projects/${p.id}`}
+            title={p.data.title}
+            summary={p.data.summary}
+            disciplines={p.data.disciplines}
+            thumbnail={p.data.thumbnail}
+            status={p.data.status}
+            contain={p.data.thumbnail?.includes('cad')}
+            kindLabel={p.data.season}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+</Base>
