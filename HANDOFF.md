@@ -1,117 +1,127 @@
-# Hand-off: deploying yash.piratla.com
+# Hand-off: publishing yash.piratla.com
 
-Written for Yash. Everything below is the one-time setup to get the site live on
-**yash.piratla.com** (with **piratla.com** redirecting to it), and how to update it later.
+This is the one-time ownership, hosting, and DNS handoff for Yash. The site is already available for
+review at <https://yash-piratla.vercel.app>. The intended production URL,
+<https://yash.piratla.com>, is not connected yet.
 
-The site is a static Astro build. Hosting is Vercel (free Hobby plan is plenty). The domain
-`piratla.com` stays registered at GoDaddy; you only add DNS records there.
+There is no reliable fixed-time estimate for this process. Account access and DNS propagation are
+the variable parts; DNS often updates quickly but can take 24–48 hours in some resolvers.
 
----
+## 1. Choose one Vercel ownership path
 
-## 0. Where things live right now
+Use only one of these paths.
 
-- Code: `https://github.com/Johaan-Mannanal/yash-portfolio` (will be transferred to your GitHub
-  account — see §5).
-- Live preview (already deployed): **https://yash-piratla.vercel.app** — under Johaan's Vercel
-  account. You can either (a) have Johaan transfer that Vercel project to you, or (b) create your
-  own — §1 covers (b), which is cleanest. Either way, every push to `main` auto-deploys.
+### Path A — GitHub transfer, then a new Vercel import (recommended)
 
----
+1. Johaan opens GitHub repository **Settings → General → Danger Zone → Transfer ownership** for
+   `Johaan-Mannanal/yash-portfolio` and transfers it to `YashwanthPiratla`.
+2. Yash accepts GitHub's transfer invitation.
+3. Yash signs into Vercel with GitHub and selects **Add New → Project**.
+4. Import the now-owned `yash-portfolio` repository. An admin collaborator on a repository in
+   another personal GitHub account is not sufficient for a personal Vercel import, so the GitHub
+   transfer must happen first.
+5. Keep the detected Astro settings:
+   - Build command: `npm run build`
+   - Output directory: `dist`
+   - Install command: `npm install`
+   - Node.js: 22.12 or newer
+6. Deploy and inspect the generated `vercel.app` URL before changing DNS.
 
-## 1. Vercel — create the project (≈5 minutes)
+### Path B — Transfer the existing Vercel project
 
-1. Go to https://vercel.com/signup and sign up **with your GitHub account** (`YashwanthPiratla`).
-2. Once the repo is in your GitHub account (§5), on the Vercel dashboard click **Add New… → Project**,
-   pick `yash-portfolio`, and click **Import**.
-3. Vercel auto-detects Astro. Leave defaults:
-   - Framework Preset: **Astro**
-   - Build Command: `npm run build`
-   - Output Directory: `dist`
-   - Install Command: `npm install`
-   - Node.js version: 22.x (Project Settings → General, if it isn't already)
-4. Click **Deploy**. In ~1 minute you get a `https://yash-portfolio-xxxx.vercel.app` URL. Check it works.
+Johaan can instead transfer the existing `yash-portfolio` Vercel project to Yash's Vercel team from
+**Project Settings → Transfer Project**. Follow Vercel's prompts for Git integration after the
+GitHub repository transfer. This retains the current deployment and project settings; do not also
+create a duplicate project through Path A.
 
-From now on, **every push to `main` auto-deploys**. Pull requests get preview URLs.
+In either path, pushes to the connected production branch deploy automatically, and pull requests
+receive preview deployments.
 
-## 2. Vercel — add the domains
+## 2. Add the domains in Vercel
 
-Project → **Settings → Domains**. Add these two, in this order:
+In the project, open **Settings → Domains** and add:
 
-1. `yash.piratla.com` — this is the **primary** domain.
-2. `piratla.com` — when prompted, choose **"Redirect to yash.piratla.com"** (308 permanent).
-   Vercel will also suggest adding `www.piratla.com`; add it and redirect it too.
+1. `yash.piratla.com` as the primary site.
+2. `piratla.com` redirected permanently to `yash.piratla.com`.
+3. `www.piratla.com` redirected permanently to `yash.piratla.com`.
 
-Vercel will show each domain as "Invalid Configuration" until DNS is set (next step). It also tells
-you exactly which records it wants — they'll match the table below.
+Keep this page open. Vercel shows the exact DNS record type and value required for each hostname.
+Those values can change, so copy the values displayed by this specific Vercel project rather than
+using a generic CNAME or IP from an older guide.
 
-## 3. GoDaddy — DNS records
+## 3. Preserve the old site if needed
 
-⚠️ **Heads-up:** `piratla.com` currently points at a GoDaddy Website Builder site (your old
-high-school résumé page). Pointing the domain at Vercel replaces it — that's intended, since the new
-site supersedes it. If you want to keep a copy, export/screenshot it first.
+`piratla.com` currently serves a GoDaddy Website Builder résumé page. Moving its web records to
+Vercel replaces that site. Save screenshots or an export first if Yash wants an archive, then
+disconnect Website Builder so it does not recreate its DNS records.
 
-1. Log in at https://dcc.godaddy.com/ → **My Products** → next to `piratla.com` click **DNS**
-   (or "Manage DNS").
-2. If GoDaddy Website Builder is "connected" to the domain, disconnect it first:
-   Website Builder → Settings → Domain → remove/disconnect. Otherwise GoDaddy may keep overwriting
-   the A record.
-3. Delete any existing **A** record for `@` and any **CNAME** for `www` that point at GoDaddy/Website
-   Builder (values like `Parked`, `WebsiteBuilder Site`, `184.168.x.x`, `76.223.105.230`).
-   Leave MX / TXT records alone if you use email on the domain.
-4. Add these records:
+## 4. Update GoDaddy DNS carefully
 
-| Type  | Name   | Value                    | TTL     |
-|-------|--------|--------------------------|---------|
-| CNAME | `yash` | `cname.vercel-dns.com`   | 600 / default |
-| A     | `@`    | `76.76.21.21`            | 600 / default |
-| CNAME | `www`  | `cname.vercel-dns.com`   | 600 / default |
+Open GoDaddy **My Products → piratla.com → DNS**. Change only the web-hosting records requested by
+Vercel.
 
-   (Vercel's Domains page shows the exact values it wants; if it shows different ones — e.g. a
-   newer A record IP or a project-specific CNAME — use what Vercel shows.)
+Records observed during the handoff that conflict with the new site:
 
-5. Save. Propagation is usually minutes, occasionally up to an hour. Back in Vercel → Domains, click
-   **Refresh**; each domain flips to a green check and Vercel issues the SSL certificate
-   automatically.
+- `yash` has an `A` record pointing to `50.63.8.181`; delete it before adding Vercel's record for
+  `yash`.
+- The apex (`@`) has old Website Builder `A` values `76.223.105.230` and `13.248.243.5`; remove the
+  old web-hosting values before adding Vercel's exact apex record.
+- `www` aliases the old apex site; replace that web record with the exact value Vercel requests.
 
-Verify:
-- https://yash.piratla.com loads the site over HTTPS
-- https://piratla.com and https://www.piratla.com redirect to it
-- Paste https://yash.piratla.com into https://www.opengraph.xyz/ — the preview card should show
-  your name and the elevator CAD image.
+Before deleting anything, confirm the current records still match this list. DNS may have changed
+since this document was written.
 
-**Do not** use GoDaddy's "Domain Forwarding" feature for the redirect — the Vercel redirect handles
-it and keeps HTTPS working on the apex domain.
+Do **not** delete MX or TXT records. The domain has Microsoft/Outlook mail configuration, and those
+records are unrelated to web hosting. Do not use GoDaddy Domain Forwarding; Vercel handles the apex
+and `www` redirects with HTTPS.
 
-## 4. Updating the site later
+For each hostname, create the record exactly as Vercel displays it, including record type, name,
+value, and any project-specific suffix. A default TTL is fine.
 
-- **Resume:** replace `public/Yash_Piratla_Resume.pdf` (same filename), commit, push. Done.
-- **New project:** add images to `src/assets/img/<slug>/` and one `.mdx` file in
-  `src/content/projects/` (or `src/content/research/`). The card, page, in-page nav, prev/next
-  links and sitemap are generated automatically. Full frontmatter reference in `README.md`.
-- **FPV drone page:** `src/content/projects/fpv-drone.mdx` is a placeholder. When the description
-  and photos exist, write the sections, add a `hero:`/`thumbnail:` and change
-  `status: coming-soon` → `status: published`.
-- **Text edits:** everything is in `src/content/**` (case studies) and `src/pages/*.astro`
-  (home/about/contact/resume). No build tooling knowledge needed beyond `git push`.
-- Preview locally with `npm install && npm run dev`.
+## 5. Wait for Vercel verification
 
-## 5. Repository transfer (Johaan → Yash)
+Return to **Vercel → Settings → Domains** and refresh until all three domains show valid
+configuration. Vercel provisions HTTPS after DNS validates.
 
-When you're ready to own the code:
+Then verify in a private browser window:
 
-1. Johaan: GitHub → `Johaan-Mannanal/yash-portfolio` → **Settings → Danger Zone → Transfer
-   ownership** → new owner `YashwanthPiratla`.
-2. Yash: accept the transfer email. GitHub auto-redirects the old URL.
-3. In Vercel, if the project was imported from Johaan's account, either re-import it under your
-   account (§1) or, in Johaan's project, **Settings → Transfer Project** to your Vercel team.
-   Domains move with the project.
-4. Optional: add `https://yash.piratla.com` as the website on your GitHub profile and LinkedIn.
+- `https://yash.piratla.com` loads the portfolio with a valid certificate.
+- `https://piratla.com` redirects to `https://yash.piratla.com`.
+- `https://www.piratla.com` redirects to `https://yash.piratla.com`.
+- `https://yash.piratla.com/Yash_Piratla_Resume.pdf` loads.
+- Social metadata looks correct in an Open Graph preview tool.
 
-## 6. Troubleshooting
+Optional terminal checks:
 
-- **"Invalid Configuration" in Vercel after 1 hour:** GoDaddy Website Builder re-added its record,
-  or the old A record wasn't deleted. Re-check §3.2–3.3.
-- **`www.piratla.com` shows a certificate error:** it's not added in Vercel → Domains. Add it.
-- **Build fails on Vercel:** the build log will name the file. Most common: an image path in
-  frontmatter that doesn't exist under `src/assets/img/`.
-- **Resume link 404s:** the PDF filename in `public/` must be exactly `Yash_Piratla_Resume.pdf`.
+```bash
+dig +short yash.piratla.com
+dig +short piratla.com
+dig +short www.piratla.com
+```
+
+If Vercel still reports invalid configuration, compare every displayed record with GoDaddy and
+check whether Website Builder recreated an old value. Public resolvers may also be serving cached
+records during propagation.
+
+## 6. Updating the site later
+
+- **Résumé:** send Johaan a corrected `Yash_Piratla_Resume.pdf`; he will replace the current file,
+  run the release checks, and deploy it.
+- **FPV drone:** the direct page is a coming-soon placeholder and is intentionally excluded from
+  the sitemap. Add the description and photos, a `hero` and `thumbnail`, then change its status to
+  `published` and remove the sitemap exclusion.
+- **New project:** add images and one MDX file, including explicit `sections` metadata as shown in
+  `README.md`.
+- **Text or image edit:** update `src/content/**` or the relevant file in `src/pages/`.
+- **Before publishing:** run `npm run check` and `npm run test:site`.
+
+## 7. Troubleshooting
+
+- **Repository missing during Vercel import:** confirm Yash accepted the GitHub ownership transfer
+  and allowed Vercel access to the repository.
+- **Domain remains invalid:** remove conflicting web records and use the exact values shown by
+  Vercel, not values copied from another project or an older guide.
+- **`www` certificate error:** add `www.piratla.com` to the Vercel project as well as DNS.
+- **Build failure:** inspect the named source file; a missing image under `src/assets/img/` is a
+  common cause.
+- **Résumé link returns 404:** the public filename must be exactly `Yash_Piratla_Resume.pdf`.

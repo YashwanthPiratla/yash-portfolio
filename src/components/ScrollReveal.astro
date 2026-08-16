@@ -1,0 +1,38 @@
+<script>
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (!reducedMotion && 'IntersectionObserver' in window) {
+    const selectors = [
+      'main > .hero .copy',
+      'main > .hero .shot',
+      '.section-head',
+      '.grid > .card',
+      '.grid > .skillcard',
+      '.grid > .award',
+      '.grid > .ccard',
+      '.about > *',
+      '.top > *',
+      '.case > section',
+      '.viewer',
+      '.pager',
+    ];
+    const candidates = [...document.querySelectorAll<HTMLElement>(selectors.join(','))];
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        (entry.target as HTMLElement).dataset.revealVisible = '';
+        observer.unobserve(entry.target);
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -6% 0px' });
+
+    const groups = new Map<Element, number>();
+    candidates.forEach((candidate) => {
+      const group = candidate.parentElement;
+      const index = group ? (groups.get(group) ?? 0) : 0;
+      if (group) groups.set(group, index + 1);
+      candidate.style.setProperty('--reveal-delay', `${Math.min(index, 3) * 45}ms`);
+      candidate.dataset.revealReady = '';
+      observer.observe(candidate);
+    });
+  }
+</script>

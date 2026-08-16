@@ -1,21 +1,59 @@
-<div class="lb" id="lightbox" role="dialog" aria-modal="true" aria-label="Enlarged image">
-  <button class="close" aria-label="Close">Esc ✕</button>
-  <img alt="" />
-  <figcaption></figcaption>
-</div>
+<dialog class="lb" id="lightbox" aria-label="Enlarged image">
+  <div class="lb-frame">
+    <button class="close" type="button">Close <span aria-hidden="true">Esc ✕</span></button>
+    <figure>
+      <img alt="" />
+      <figcaption></figcaption>
+    </figure>
+  </div>
+</dialog>
 <script>
-  const lb = document.getElementById('lightbox')!;
-  const img = lb.querySelector('img')!;
-  const cap = lb.querySelector('figcaption')!;
-  const close = () => { lb.classList.remove('open'); img.src = ''; document.body.style.overflow = ''; };
-  document.querySelectorAll<HTMLImageElement>('.zoomable img, img.zoomable').forEach(el => {
-    el.addEventListener('click', () => {
-      img.src = el.currentSrc || el.src; img.alt = el.alt;
-      const c = el.closest('figure')?.querySelector('figcaption')?.textContent ?? el.alt;
-      cap.textContent = c || '';
-      lb.classList.add('open'); document.body.style.overflow = 'hidden';
+  const lightbox = document.querySelector<HTMLDialogElement>('#lightbox');
+  const image = lightbox?.querySelector<HTMLImageElement>('img');
+  const caption = lightbox?.querySelector<HTMLElement>('figcaption');
+  const closeButton = lightbox?.querySelector<HTMLButtonElement>('.close');
+  let activeTrigger: HTMLElement | null = null;
+
+  const closeLightbox = () => {
+    if (lightbox?.open) lightbox.close();
+  };
+
+  const openLightbox = (trigger: HTMLElement) => {
+    const source = trigger.matches('img')
+      ? trigger as HTMLImageElement
+      : trigger.querySelector<HTMLImageElement>('img');
+    if (!lightbox || !image || !caption || !source) return;
+
+    activeTrigger = trigger;
+    image.src = source.currentSrc || source.src;
+    image.alt = source.alt;
+    const text = trigger.closest('figure')?.querySelector('figcaption')?.textContent?.trim() || source.alt;
+    caption.textContent = text;
+    caption.hidden = !text;
+    if (!lightbox.open) lightbox.showModal();
+    closeButton?.focus();
+  };
+
+  document.querySelectorAll<HTMLElement>('.zoomable').forEach((trigger) => {
+    trigger.addEventListener('click', () => openLightbox(trigger));
+    trigger.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        openLightbox(trigger);
+      }
     });
   });
-  lb.addEventListener('click', close);
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+
+  closeButton?.addEventListener('click', closeLightbox);
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && lightbox?.open) closeLightbox();
+  });
+  lightbox?.addEventListener('click', (event) => {
+    if (event.target === lightbox) closeLightbox();
+  });
+  lightbox?.addEventListener('close', () => {
+    image?.removeAttribute('src');
+    activeTrigger?.focus();
+    activeTrigger = null;
+  });
 </script>

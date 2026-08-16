@@ -3,6 +3,7 @@ import '../styles/global.css';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import Lightbox from '../components/Lightbox.astro';
+import ScrollReveal from '../components/ScrollReveal.astro';
 
 interface Props {
   title?: string;
@@ -43,7 +44,7 @@ const og = ogImage.startsWith('http') ? ogImage : new URL(ogImage, SITE).href;
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={og} />
     <link rel="sitemap" href="/sitemap-index.xml" />
-    <script type="application/ld+json" set:html={JSON.stringify({
+    <script is:inline type="application/ld+json" set:html={JSON.stringify({
       '@context': 'https://schema.org', '@type': 'Person', name: NAME, alternateName: 'Yash Piratla',
       url: SITE, email: 'mailto:ypiratla@gmail.com',
       sameAs: ['https://github.com/YashwanthPiratla', 'https://www.linkedin.com/in/yashwanth-piratla-5115b826/'],
@@ -58,5 +59,6 @@ const og = ogImage.startsWith('http') ? ogImage : new URL(ogImage, SITE).href;
     </main>
     <Footer />
     <Lightbox />
+    <ScrollReveal />
   </body>
 </html>

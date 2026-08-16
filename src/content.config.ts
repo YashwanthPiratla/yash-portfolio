@@ -1,5 +1,6 @@
-import { defineCollection, z } from 'astro:content';
+import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
+import { z } from 'astro/zod';
 
 // Shared schema so mechanical, robotics, software, electrical and research
 // projects all render through the same templates. Add a new project by
@@ -12,8 +13,10 @@ const base = {
   order: z.number().default(99),
   status: z.enum(['published', 'coming-soon']).default('published'),
   hero: z.string().optional(),        // path under src/assets/img/, e.g. "elevator/cad-iso.png"
+  heroContain: z.boolean().default(false),
   thumbnail: z.string().optional(),
   stats: z.array(z.object({ value: z.string(), label: z.string() })).default([]),
+  sections: z.array(z.object({ id: z.string(), label: z.string() })).default([]),
   season: z.string().optional(),      // e.g. "2025 FRC Reefscape"
 };
 
