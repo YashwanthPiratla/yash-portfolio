@@ -7,8 +7,7 @@ export async function getStaticPaths() {
   return items.map(entry => ({ params: { slug: entry.id }, props: { entry } }));
 }
 const { entry } = Astro.props;
-const { Content, headings } = await render(entry);
-const sections = headings.filter(h => h.depth === 2).map(h => ({ id: h.slug, label: h.text }));
+const { Content } = await render(entry);
 const d = entry.data;
 ---
 <CaseLayout
@@ -18,9 +17,9 @@ const d = entry.data;
   eyebrow="Research & technical project"
   hero={d.hero}
   heroAlt={`${d.title} — project image`}
-  heroContain={(d as any).heroContain ?? true}
+  heroContain={d.heroContain}
   stats={d.stats}
-  sections={sections}
+  sections={d.sections}
 >
   <Content />
 </CaseLayout>

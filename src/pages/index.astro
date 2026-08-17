@@ -31,7 +31,13 @@ const heroImg = img('elevator/robot-full-extension.png');
           <a href="mailto:ypiratla@gmail.com">ypiratla@gmail.com</a>
         </div>
       </div>
-      <figure class="shot zoomable">
+      <figure
+        class="shot zoomable"
+        role="button"
+        tabindex="0"
+        aria-haspopup="dialog"
+        aria-label="Enlarge image: three-stage cascading elevator on the competition robot"
+      >
         <Image src={heroImg} alt="A three-stage cascading elevator at full extension on an FRC competition robot" width={1200} loading="eager" format="webp" quality={82} />
         <figcaption class="small muted">Three-stage cascading elevator at full extension — 2025 FRC robot.</figcaption>
       </figure>

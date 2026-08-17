@@ -18,7 +18,7 @@ const isActive = (h: string) => h === '/' ? path === '/' : path.startsWith(h);
       <span class="sub mono">MechE · UC Berkeley</span>
     </a>
     <nav aria-label="Primary">
-      <button class="menu-btn" aria-expanded="false" aria-controls="primary-nav" aria-label="Menu">
+      <button class="menu-btn" type="button" aria-expanded="false" aria-controls="primary-nav" aria-label="Open menu">
         <span></span><span></span><span></span>
       </button>
       <ul id="primary-nav">
@@ -54,10 +54,30 @@ const isActive = (h: string) => h === '/' ? path === '/' : path.startsWith(h);
   }
 </style>
 <script>
-  const btn = document.querySelector('.menu-btn');
-  const list = document.getElementById('primary-nav');
-  btn?.addEventListener('click', () => {
-    const open = list!.classList.toggle('open');
-    btn.setAttribute('aria-expanded', String(open));
+  const btn = document.querySelector<HTMLButtonElement>('.menu-btn');
+  const list = document.querySelector<HTMLElement>('#primary-nav');
+  const header = btn?.closest<HTMLElement>('header.site');
+
+  const setMenu = (open: boolean) => {
+    list?.classList.toggle('open', open);
+    btn?.setAttribute('aria-expanded', String(open));
+    btn?.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+  };
+
+  btn?.addEventListener('click', () => setMenu(!list?.classList.contains('open')));
+  list?.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => setMenu(false)));
+  document.addEventListener('click', (event) => {
+    if (list?.classList.contains('open') && event.target instanceof Node && !header?.contains(event.target)) {
+      setMenu(false);
+    }
+  });
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && list?.classList.contains('open')) {
+      setMenu(false);
+      btn?.focus();
+    }
+  });
+  window.matchMedia('(max-width: 900px)').addEventListener('change', (event) => {
+    if (!event.matches) setMenu(false);
   });
 </script>

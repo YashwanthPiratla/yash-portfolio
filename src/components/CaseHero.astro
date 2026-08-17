@@ -12,7 +12,13 @@ const meta = hero ? img(hero) : undefined;
     <h1>{title}</h1>
     <p class="sub mono">{subtitle}</p>
     {meta && (
-      <figure class:list={['fig', 'zoomable', 'shot', { contain }]}>
+      <figure
+        class:list={['fig', 'zoomable', 'shot', { contain }]}
+        role="button"
+        tabindex="0"
+        aria-haspopup="dialog"
+        aria-label={`Enlarge image: ${heroAlt}`}
+      >
         <Image src={meta} alt={heroAlt} width={1600} loading="eager" format="webp" quality={84} />
         {heroCaption && <figcaption>{heroCaption}</figcaption>}
       </figure>
