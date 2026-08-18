@@ -106,10 +106,11 @@ const research = (await getCollection('research')).sort((a, b) => a.data.order -
   .copy { display: grid; justify-items: center; }
   h1 { margin: 0.35rem 0 0.55rem; }
   .hero .lede { max-width: 54ch; margin-bottom: 0; }
-  .cta { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.6rem; margin: 1rem 0 0.75rem; }
+  .hero .cta { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.6rem; margin: 1rem 0 0.75rem; }
   .links { display: flex; flex-wrap: wrap; justify-content: center; gap: 1.25rem; color: var(--ink-3); }
   .links a { color: var(--ink-2); }
   .about { display: grid; grid-template-columns: 280px 1fr; gap: clamp(1.5rem, 4vw, 3rem); align-items: start; }
+  .about .cta { display: flex; flex-wrap: wrap; gap: 0.6rem; margin: 1.5rem 0 1rem; }
   .portrait { margin: 0; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
   .portrait img { width: 100%; }
   @media (max-width: 880px) {

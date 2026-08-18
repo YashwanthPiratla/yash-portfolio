@@ -96,10 +96,22 @@ if (homeSource.includes("img('elevator/robot-full-extension.png')")) {
 if (!homeSource.includes('class="hero-portrait"')) {
   fail('/: compact hero portrait is missing');
 }
-const heroClose = homeSource.indexOf('</section>');
-const projectsHeading = homeSource.indexOf('Mechanical design, built and tested');
-if (heroClose === -1 || projectsHeading < heroClose) {
+const heroOpen = homeSource.indexOf('<section class="hero">');
+const heroClose = homeSource.indexOf('</section>', heroOpen);
+const nextSectionOpen = homeSource.indexOf('<section', heroClose);
+const nextSectionClose = homeSource.indexOf('</section>', nextSectionOpen);
+const nextSection = homeSource.slice(nextSectionOpen, nextSectionClose);
+if (heroOpen === -1 || heroClose === -1 || nextSectionOpen === -1 || nextSectionClose === -1 || !nextSection.includes('Mechanical design, built and tested')) {
   fail('/: Engineering Projects is not immediately after the hero');
+}
+if (/(?:^|\n)\s*\.cta\s*\{/.test(homeSource)) {
+  fail('/: homepage CTA styles are not scoped to the hero');
+}
+if (!/\.hero\s+\.cta\s*\{/.test(homeSource)) {
+  fail('/: compact hero CTA styles are missing');
+}
+if (!/\.about\s+\.cta\s*\{[^}]*margin:\s*1\.5rem 0 1rem;/.test(homeSource)) {
+  fail('/: About CTA does not preserve its prior spacing');
 }
 
 const leadershipRoles = [
