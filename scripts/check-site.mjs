@@ -154,6 +154,34 @@ if (projectsIndex.includes('Things I designed, built, broke, and fixed')) {
   fail('/projects/: contains collective solo-attribution heading');
 }
 
+const engineeringSources = [
+  'three-stage-cascading-elevator.mdx',
+  'deployable-climbing-mechanism.mdx',
+  'mk4-swerve-drivebase.mdx',
+];
+
+for (const filename of engineeringSources) {
+  const source = await readFile(path.join(root, 'src/content/projects', filename), 'utf8');
+  const frontmatterMatch = source.match(/^---\n([\s\S]*?)\n---/);
+  const frontmatter = frontmatterMatch?.[1] ?? '';
+  const body = frontmatterMatch ? source.slice(frontmatterMatch[0].length) : source;
+  const hero = frontmatter.match(/^hero:\s*(.+)$/m)?.[1]?.trim();
+  const bodyImages = [...body.matchAll(/img\(['"]([^'"]+)['"]\)/g)].map((match) => match[1]);
+  const caseImages = [hero, ...bodyImages].filter(Boolean);
+  const duplicates = caseImages.filter((image, index) => caseImages.indexOf(image) !== index);
+  if (duplicates.length > 0) {
+    fail(`${filename}: repeats case-study media: ${[...new Set(duplicates)].join(', ')}`);
+  }
+}
+
+const drivebaseSource = await readFile(path.join(root, 'src/content/projects/mk4-swerve-drivebase.mdx'), 'utf8');
+if (!drivebaseSource.includes('src="/media/drivebase-moving.mp4"')) {
+  fail('/projects/mk4-swerve-drivebase/: supplied video is not embedded');
+}
+if (!(await exists(path.join(root, 'public/media/drivebase-moving.mp4')))) {
+  fail('/projects/mk4-swerve-drivebase/: supplied video file is missing');
+}
+
 if (failures.length > 0) {
   console.error(`Site audit failed with ${failures.length} issue${failures.length === 1 ? '' : 's'}:`);
   failures.forEach((failure) => console.error(`- ${failure}`));
