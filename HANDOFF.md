@@ -105,15 +105,44 @@ records during propagation.
 
 ## 6. Updating the site later
 
+### GitHub editing workflow
+
+Yash currently works from `YashwanthPiratla/yash-portfolio` and opens pull requests into
+`Johaan-Mannanal/yash-portfolio`. Before beginning another revision, merge approved Yash changes,
+pull the updated original `main`, and create the revision branch from that commit. Review each pull
+request through its Vercel preview before merging to production.
+
 - **Résumé:** send Johaan a corrected `Yash_Piratla_Resume.pdf`; he will replace the current file,
   run the release checks, and deploy it.
-- **FPV drone:** the direct page is a coming-soon placeholder and is intentionally excluded from
-  the sitemap. Add the description and photos, a `hero` and `thumbnail`, then change its status to
-  `published` and remove the sitemap exclusion.
+- **FPV drone:** this is a group project. Do not expand it into a solo case study. When the separate
+  group-built case study is published, set `caseStudyUrl` in
+  `src/content/projects/fpv-drone.mdx` to its final URL. Do not invent or substitute a URL.
 - **New project:** add images and one MDX file, including explicit `sections` metadata as shown in
   `README.md`.
 - **Text or image edit:** update `src/content/**` or the relevant file in `src/pages/`.
 - **Before publishing:** run `npm run check` and `npm run test:site`.
+
+### Content guardrails
+
+- Project-card thumbnails are navigation UI and may also appear as a case-study hero.
+- Within a case-study page, do not repeat a hero or body image in another section.
+- Wearable Health Telemetry is approved and must remain unchanged unless Yash supplies a newly
+  approved revision.
+- The current résumé PDF remains unchanged until Yash supplies a replacement file.
+- Use only supplied project photos, CAD, and video; do not generate substitute engineering media.
+
+### Project media still requested
+
+- **Elevator:** belt-tensioner CAD/physical photo, PLA-to-carbon-fiber-PLA pulley iteration, failed
+  motor mount or bent pulley, manufacturing/assembly, and detailed belt-routing views.
+- **Climber:** dead-axle close-up, carbon-fiber hook close-up, FEA screenshot, hook-testing media,
+  and the final mechanism installed on the robot.
+- **Drivebase:** bumper mounts, battery mount, under-bumper intake, wiring close-ups, manufacturing,
+  and a final full-robot photograph.
+
+The current pages intentionally remain asset-honest until these files arrive.
+
+For future drivebase video updates, replace `/media/drivebase-moving.mp4` with the supplied file.
 
 ## 7. Troubleshooting
 
