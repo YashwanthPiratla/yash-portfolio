@@ -1,3 +1,7 @@
+# Draft — not sent
+
+Before sending, confirm the deployed site, handoff link, and remaining-media request are current.
+
 To: ypiratla@gmail.com
 Subject: Portfolio update — PT2 revisions and remaining project media
 

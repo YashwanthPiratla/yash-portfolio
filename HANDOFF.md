@@ -13,19 +13,39 @@ Use only one of these paths.
 
 ### Path A — GitHub transfer, then a new Vercel import (recommended)
 
+Before transfer, merge all approved work from Yash's current fork into
+`Johaan-Mannanal/yash-portfolio` and create a verified backup of any work that is not merged.
+Record the relevant commit SHAs and verify the backup can be recovered before changing repository
+ownership.
+
+GitHub cannot transfer a repository into an account that already owns a repository with the same
+name or a fork in the same network. Because `YashwanthPiratla/yash-portfolio` is currently a fork,
+resolve that conflict first: prefer asking GitHub Support to detach the fork from the network, then
+rename or move the detached archive so Yash no longer owns a repository named `yash-portfolio`.
+Delete the fork only after the backup and its recovery have been verified. Confirm both the
+same-name and fork-network conflicts are gone before initiating the transfer.
+
 1. Johaan opens GitHub repository **Settings → General → Danger Zone → Transfer ownership** for
    `Johaan-Mannanal/yash-portfolio` and transfers it to `YashwanthPiratla`.
 2. Yash accepts GitHub's transfer invitation.
-3. Yash signs into Vercel with GitHub and selects **Add New → Project**.
-4. Import the now-owned `yash-portfolio` repository. An admin collaborator on a repository in
+3. Update each local checkout so its `origin` is
+   `YashwanthPiratla/yash-portfolio`, then verify the remote before pushing:
+
+   ```bash
+   git remote set-url origin git@github.com:YashwanthPiratla/yash-portfolio.git
+   git remote -v
+   ```
+
+4. Yash signs into Vercel with GitHub and selects **Add New → Project**.
+5. Import the now-owned `yash-portfolio` repository. An admin collaborator on a repository in
    another personal GitHub account is not sufficient for a personal Vercel import, so the GitHub
    transfer must happen first.
-5. Keep the detected Astro settings:
+6. Keep the detected Astro settings:
    - Build command: `npm run build`
    - Output directory: `dist`
    - Install command: `npm install`
    - Node.js: 22.12 or newer
-6. Deploy and inspect the generated `vercel.app` URL before changing DNS.
+7. Deploy and inspect the generated `vercel.app` URL before changing DNS.
 
 ### Path B — Transfer the existing Vercel project
 
@@ -107,10 +127,14 @@ records during propagation.
 
 ### GitHub editing workflow
 
-Yash currently works from `YashwanthPiratla/yash-portfolio` and opens pull requests into
-`Johaan-Mannanal/yash-portfolio`. Before beginning another revision, merge approved Yash changes,
-pull the updated original `main`, and create the revision branch from that commit. Review each pull
-request through its Vercel preview before merging to production.
+Before the ownership transfer, Yash works from `YashwanthPiratla/yash-portfolio` and opens pull
+requests into `Johaan-Mannanal/yash-portfolio`. Merge approved Yash changes before the transfer
+sequence in Path A.
+
+After the transfer, `YashwanthPiratla/yash-portfolio` is the canonical repository. Pull its updated
+`main`, create each revision branch from that commit, and open pull requests back into that same
+repository. Do not treat `Johaan-Mannanal/yash-portfolio` as an independent upstream after the
+transfer. Review every pull request through its Vercel preview before merging to production.
 
 - **Résumé:** send Johaan a corrected `Yash_Piratla_Resume.pdf`; he will replace the current file,
   run the release checks, and deploy it.
