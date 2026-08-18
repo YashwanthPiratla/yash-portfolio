@@ -8,9 +8,9 @@ const projects = (await getCollection('projects')).sort((a, b) => a.data.order -
   <section class="section">
     <div class="wrap">
       <span class="eyebrow accent">Engineering projects</span>
-      <h1>Things I designed, built, broke, and fixed</h1>
-      <p class="lede">Each case study follows the same arc — requirements, engineering decisions,
-      what failed under test, and what I changed. Numbers and methods come from the project
+      <h1>Engineering projects and collaborative builds</h1>
+      <p class="lede">These case studies document requirements, engineering decisions, testing,
+      and iteration across individual and group projects. Numbers and methods come from project
       documentation, not from memory.</p>
       <div class="grid two" style="margin-top: 2.5rem">
         {projects.map(p => (

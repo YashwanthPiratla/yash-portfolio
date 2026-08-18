@@ -111,6 +111,11 @@ for (const relative of ['index.html', 'projects/index.html']) {
   }
 }
 
+const projectsIndex = await readFile(path.join(dist, 'projects/index.html'), 'utf8');
+if (projectsIndex.includes('Things I designed, built, broke, and fixed')) {
+  fail('/projects/: contains collective solo-attribution heading');
+}
+
 if (failures.length > 0) {
   console.error(`Site audit failed with ${failures.length} issue${failures.length === 1 ? '' : 's'}:`);
   failures.forEach((failure) => console.error(`- ${failure}`));
