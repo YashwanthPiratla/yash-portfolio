@@ -89,6 +89,19 @@ for (const relative of [
 const home = await readFile(path.join(dist, 'index.html'), 'utf8');
 if (!/<dialog\b[^>]*\bid=["']lightbox["']/.test(home)) fail('/: lightbox is not implemented as a native dialog');
 
+const leadershipRoles = [
+  'FRC Robotics — President',
+  'Praevius — Partner',
+  'Evergreen Code Camp — Co-founder',
+  'VTseva — Community Service',
+];
+const leadershipPositions = leadershipRoles.map((role) => home.indexOf(role));
+if (leadershipPositions.some((position) => position === -1)) {
+  fail('/: missing one or more Experience / Leadership cards');
+} else if (!leadershipPositions.every((position, index) => index === 0 || position > leadershipPositions[index - 1])) {
+  fail('/: Experience / Leadership cards are out of order');
+}
+
 const sitemapFiles = files.filter((file) => /sitemap.*\.xml$/.test(file));
 for (const file of sitemapFiles) {
   const xml = await readFile(file, 'utf8');

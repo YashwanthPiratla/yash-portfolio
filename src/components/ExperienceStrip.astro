@@ -1,0 +1,50 @@
+---
+const experiences = [
+  {
+    title: 'FRC Robotics — President',
+    copy: 'Led a 40-member team across robot development, mechanical design, manufacturing, technical training, outreach, and STEM fundraising.',
+  },
+  {
+    title: 'Praevius — Partner',
+    copy: 'Led social media and used Stable Diffusion, video editing, and four AI outreach systems in work associated with ~$200K lifetime revenue.',
+  },
+  {
+    title: 'Evergreen Code Camp — Co-founder',
+    copy: 'Created Python and Scratch curriculum, taught online and in person, and supported 40+ signups and ~$20K revenue.',
+  },
+  {
+    title: 'VTseva — Community Service',
+    copy: 'Founded Feeding Hope, raised ~$20K for visually challenged students, supported ~$50K through UTSAV, and mentored FLL students.',
+  },
+];
+---
+
+<section class="section experience" aria-labelledby="experience-heading">
+  <div class="wrap">
+    <div class="section-head compact">
+      <div>
+        <span class="eyebrow accent">Experience / Leadership</span>
+        <h2 id="experience-heading">Beyond the engineering work</h2>
+      </div>
+    </div>
+    <div class="experience-grid">
+      {experiences.map((experience) => (
+        <article class="experience-card">
+          <h3>{experience.title}</h3>
+          <p>{experience.copy}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .experience { padding-block: clamp(2rem, 4vw, 3rem); }
+  .section-head.compact { margin-bottom: 1.25rem; }
+  .experience-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.75rem; }
+  .experience-card { border: 1px solid var(--line); border-radius: var(--radius); padding: 0.9rem; background: var(--bg); }
+  .experience-card h3 { font-size: 0.95rem; margin-bottom: 0.4rem; }
+  .experience-card p { margin: 0; color: var(--ink-2); font-size: 0.82rem; line-height: 1.45; }
+  @media (max-width: 900px) { .experience-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 520px) { .experience-grid { grid-template-columns: 1fr; } }
+</style>
