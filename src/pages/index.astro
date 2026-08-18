@@ -45,7 +45,7 @@ const research = (await getCollection('research')).sort((a, b) => a.data.order -
       <div class="grid two">
         {projects.map(p => (
           <ProjectCard href={p.data.caseStudyUrl ?? `/projects/${p.id}`} title={p.data.title} summary={p.data.summary}
-            disciplines={p.data.disciplines} thumbnail={p.data.thumbnail} status={p.data.status}
+            disciplines={p.data.disciplines} thumbnail={p.data.thumbnail} placeholderLabel={p.data.placeholderLabel} status={p.data.status}
             contain={p.data.thumbnail?.includes('cad')} kindLabel={p.data.season}
             ctaLabel={p.data.ctaLabel} external={Boolean(p.data.caseStudyUrl)} />
         ))}

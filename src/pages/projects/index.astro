@@ -20,6 +20,7 @@ const projects = (await getCollection('projects')).sort((a, b) => a.data.order -
             summary={p.data.summary}
             disciplines={p.data.disciplines}
             thumbnail={p.data.thumbnail}
+            placeholderLabel={p.data.placeholderLabel}
             status={p.data.status}
             contain={p.data.thumbnail?.includes('cad')}
             kindLabel={p.data.season}

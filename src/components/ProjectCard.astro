@@ -7,6 +7,7 @@ interface Props {
   summary: string;
   disciplines: string[];
   thumbnail?: string;
+  placeholderLabel?: string;
   status?: string;
   contain?: boolean;
   kindLabel?: string;
@@ -14,7 +15,7 @@ interface Props {
   external?: boolean;
 }
 const {
-  href, title, summary, disciplines, thumbnail, status = 'published', contain = false,
+  href, title, summary, disciplines, thumbnail, placeholderLabel, status = 'published', contain = false,
   kindLabel, ctaLabel, external = false,
 } = Astro.props;
 const soon = status === 'coming-soon';
@@ -24,7 +25,7 @@ const rel = external ? 'noopener' : undefined;
 ---
 <article class:list={['card', { soon }]}>
   <a class:list={['thumb', { contain }]} href={href} target={target} rel={rel} aria-hidden="true" tabindex="-1">
-    {meta ? <Image src={meta} alt="" width={800} format="webp" quality={78} /> : <div class="ph"><span class="mono">Photos coming soon</span></div>}
+    {meta ? <Image src={meta} alt="" width={800} format="webp" quality={78} /> : <div class="ph"><span class="mono">{placeholderLabel ?? 'Photos coming soon'}</span></div>}
   </a>
   <div class="body">
     {kindLabel && <span class="eyebrow">{kindLabel}</span>}

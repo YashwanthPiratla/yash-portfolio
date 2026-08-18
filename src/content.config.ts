@@ -15,6 +15,7 @@ const base = {
   hero: z.string().optional(),        // path under src/assets/img/, e.g. "elevator/cad-iso.png"
   heroContain: z.boolean().default(false),
   thumbnail: z.string().optional(),
+  placeholderLabel: z.string().optional(),
   ctaLabel: z.string().optional(),
   caseStudyUrl: z.url().optional(),
   stats: z.array(z.object({ value: z.string(), label: z.string() })).default([]),

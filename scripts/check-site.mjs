@@ -154,9 +154,41 @@ for (const [label, pattern] of [
 
 for (const relative of ['index.html', 'projects/index.html']) {
   const html = await readFile(path.join(dist, relative), 'utf8');
-  if (!html.includes('View Case Study →')) {
-    fail(`/${relative === 'index.html' ? '' : 'projects/'}: FPV card is missing View Case Study CTA`);
+  const route = `/${relative === 'index.html' ? '' : 'projects/'}`;
+  const fpvCard = html.match(/<article\b[\s\S]*?<h3[^>]*>[\s\S]*?5(?:&quot;|") FPV Drone[\s\S]*?<\/article>/)?.[0];
+  if (!fpvCard) {
+    fail(`${route}: FPV card is missing`);
+  } else {
+    if (!fpvCard.includes('View Case Study →')) {
+      fail(`${route}: FPV card is missing View Case Study CTA`);
+    }
+    if (!fpvCard.includes('Group case study coming soon')) {
+      fail(`${route}: FPV card is missing its group-case-study placeholder`);
+    }
+    if (fpvCard.includes('Photos coming soon')) {
+      fail(`${route}: FPV card still requests photos`);
+    }
   }
+}
+
+const readmeSource = await readFile(path.join(root, 'README.md'), 'utf8');
+const correctiveEmailPath = 'docs/communications/yash-pt2-follow-up-email.md';
+if (!readmeSource.includes(`](${correctiveEmailPath})`)) {
+  fail('README.md: primary email documentation does not point to the corrective unsent draft');
+}
+if (/Unsent handoff email draft:\s*\[`EMAIL_TO_YASH\.md`\]/.test(readmeSource)) {
+  fail('README.md: superseded EMAIL_TO_YASH.md is still labeled as the unsent handoff email');
+}
+
+const historicalEmailSource = await readFile(path.join(root, 'EMAIL_TO_YASH.md'), 'utf8');
+if (!historicalEmailSource.startsWith('# Historical — sent and superseded')) {
+  fail('EMAIL_TO_YASH.md: missing sent-and-superseded historical status');
+}
+if (!historicalEmailSource.includes('Do not send or reuse this message.')) {
+  fail('EMAIL_TO_YASH.md: missing do-not-send warning');
+}
+if (!historicalEmailSource.includes(`](${correctiveEmailPath})`)) {
+  fail('EMAIL_TO_YASH.md: missing link to the corrective unsent draft');
 }
 
 const projectsIndex = await readFile(path.join(dist, 'projects/index.html'), 'utf8');
