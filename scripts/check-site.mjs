@@ -99,6 +99,15 @@ if (!homeSource.includes('class="hero-portrait"')) {
 }
 const heroOpen = homeSource.indexOf('<section class="hero">');
 const heroClose = homeSource.indexOf('</section>', heroOpen);
+const heroSource = homeSource.slice(heroOpen, heroClose);
+const approvedLinkedInUrl = 'https://www.linkedin.com/in/yashwanth-piratla-5115b826a/';
+const obsoleteLinkedInUrl = 'https://www.linkedin.com/in/yashwanth-piratla-5115b826/';
+if (heroSource.includes(obsoleteLinkedInUrl)) {
+  fail('/: compact hero contains the obsolete LinkedIn profile URL');
+}
+if (!heroSource.includes(approvedLinkedInUrl)) {
+  fail('/: compact hero is missing the approved LinkedIn profile URL');
+}
 const nextSectionOpen = homeSource.indexOf('<section', heroClose);
 const nextSectionClose = homeSource.indexOf('</section>', nextSectionOpen);
 const nextSection = homeSource.slice(nextSectionOpen, nextSectionClose);
