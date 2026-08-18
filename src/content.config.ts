@@ -16,7 +16,7 @@ const base = {
   heroContain: z.boolean().default(false),
   thumbnail: z.string().optional(),
   ctaLabel: z.string().optional(),
-  caseStudyUrl: z.string().url().optional(),
+  caseStudyUrl: z.url().optional(),
   stats: z.array(z.object({ value: z.string(), label: z.string() })).default([]),
   sections: z.array(z.object({ id: z.string(), label: z.string() })).default([]),
   season: z.string().optional(),      // e.g. "2025 FRC Reefscape"
