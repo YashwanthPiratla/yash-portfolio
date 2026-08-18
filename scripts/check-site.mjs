@@ -1,4 +1,5 @@
 import { readdir, readFile, stat } from 'node:fs/promises';
+import { createHash } from 'node:crypto';
 import path from 'node:path';
 
 const root = process.cwd();
@@ -175,11 +176,34 @@ for (const filename of engineeringSources) {
 }
 
 const drivebaseSource = await readFile(path.join(root, 'src/content/projects/mk4-swerve-drivebase.mdx'), 'utf8');
-if (!drivebaseSource.includes('src="/media/drivebase-moving.mp4"')) {
-  fail('/projects/mk4-swerve-drivebase/: supplied video is not embedded');
+const drivebaseVideo = drivebaseSource.match(/<video\b([^>]*)>([\s\S]*?)<\/video>/);
+if (!drivebaseVideo) {
+  fail('/projects/mk4-swerve-drivebase/: supplied video is not embedded as a native video');
+} else {
+  const [, videoAttributes, videoContents] = drivebaseVideo;
+  if (!/(?:^|\s)controls(?=\s|=|$)/.test(videoAttributes)) {
+    fail('/projects/mk4-swerve-drivebase/: supplied video must enable controls');
+  }
+  if (!/(?:^|\s)preload\s*=\s*["']metadata["'](?=\s|$)/.test(videoAttributes)) {
+    fail('/projects/mk4-swerve-drivebase/: supplied video must preload metadata');
+  }
+  if (/(?:^|\s)autoplay(?=\s|=|$)/.test(videoAttributes)) {
+    fail('/projects/mk4-swerve-drivebase/: supplied video must not autoplay');
+  }
+  const drivebaseVideoSource = videoContents.match(/<source\b([^>]*)>/);
+  if (!drivebaseVideoSource || !/(?:^|\s)src\s*=\s*["']\/media\/drivebase-moving\.mp4["'](?=\s|$)/.test(drivebaseVideoSource[1])) {
+    fail('/projects/mk4-swerve-drivebase/: supplied video source must be nested in the native video');
+  }
 }
-if (!(await exists(path.join(root, 'public/media/drivebase-moving.mp4')))) {
+const drivebaseVideoPath = path.join(root, 'public/media/drivebase-moving.mp4');
+const expectedDrivebaseVideoHash = 'af9b170cbfad71f8f1b95a8719a00b1334d267e1ad61a28797b8bd7007ca2e71';
+if (!(await exists(drivebaseVideoPath))) {
   fail('/projects/mk4-swerve-drivebase/: supplied video file is missing');
+} else {
+  const actualDrivebaseVideoHash = createHash('sha256').update(await readFile(drivebaseVideoPath)).digest('hex');
+  if (actualDrivebaseVideoHash !== expectedDrivebaseVideoHash) {
+    fail('/projects/mk4-swerve-drivebase/: supplied video checksum does not match');
+  }
 }
 
 if (failures.length > 0) {
