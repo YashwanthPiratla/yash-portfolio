@@ -89,6 +89,19 @@ for (const relative of [
 const home = await readFile(path.join(dist, 'index.html'), 'utf8');
 if (!/<dialog\b[^>]*\bid=["']lightbox["']/.test(home)) fail('/: lightbox is not implemented as a native dialog');
 
+const homeSource = await readFile(path.join(root, 'src/pages/index.astro'), 'utf8');
+if (homeSource.includes("img('elevator/robot-full-extension.png')")) {
+  fail('/: homepage still imports the large elevator hero');
+}
+if (!homeSource.includes('class="hero-portrait"')) {
+  fail('/: compact hero portrait is missing');
+}
+const heroClose = homeSource.indexOf('</section>');
+const projectsHeading = homeSource.indexOf('Mechanical design, built and tested');
+if (heroClose === -1 || projectsHeading < heroClose) {
+  fail('/: Engineering Projects is not immediately after the hero');
+}
+
 const leadershipRoles = [
   'FRC Robotics — President',
   'Praevius — Partner',

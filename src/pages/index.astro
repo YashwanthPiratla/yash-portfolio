@@ -4,23 +4,21 @@ import ProjectCard from '../components/ProjectCard.astro';
 import ExperienceStrip from '../components/ExperienceStrip.astro';
 import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
-import { img } from '../lib/images';
 import headshot from '../assets/img/headshot.png';
 
 const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
 const research = (await getCollection('research')).sort((a, b) => a.data.order - b.data.order);
-const heroImg = img('elevator/robot-full-extension.png');
 ---
 <Base>
   <section class="hero">
-    <div class="wrap inner">
+    <div class="wrap hero-inner">
+      <figure class="hero-portrait">
+        <Image src={headshot} alt="Portrait of Yashwanth Piratla" width={168} loading="eager" format="webp" quality={88} />
+      </figure>
       <div class="copy">
         <span class="eyebrow accent">Mechanical Engineering — UC Berkeley</span>
         <h1>Yashwanth Piratla</h1>
-        <p class="lede">Mechanical engineering student focused on mechanical design, robotics, CAD,
-        manufacturing, and hands-on engineering.</p>
-        <p class="muted">I don't just know CAD — I design mechanisms, build them, test them, find
-        out why they fail, redesign them, and make them work.</p>
+        <p class="lede">I design, manufacture, test, and iterate mechanical systems for robotics and real hardware.</p>
         <div class="cta">
           <a class="btn primary" href="/projects">Engineering Projects</a>
           <a class="btn" href="/research">Research</a>
@@ -32,16 +30,6 @@ const heroImg = img('elevator/robot-full-extension.png');
           <a href="mailto:ypiratla@gmail.com">ypiratla@gmail.com</a>
         </div>
       </div>
-      <figure
-        class="shot zoomable"
-        role="button"
-        tabindex="0"
-        aria-haspopup="dialog"
-        aria-label="Enlarge image: three-stage cascading elevator on the competition robot"
-      >
-        <Image src={heroImg} alt="A three-stage cascading elevator at full extension on an FRC competition robot" width={1200} loading="eager" format="webp" quality={82} />
-        <figcaption class="small muted">Three-stage cascading elevator at full extension — 2025 FRC robot.</figcaption>
-      </figure>
     </div>
   </section>
 
@@ -111,21 +99,20 @@ const heroImg = img('elevator/robot-full-extension.png');
 </Base>
 
 <style>
-  .hero { padding: clamp(2.5rem, 6vw, 5rem) 0 clamp(2rem, 4vw, 3rem); border-bottom: 1px solid var(--line); }
-  .inner { display: grid; grid-template-columns: 1.05fr 1fr; gap: clamp(2rem, 5vw, 4rem); align-items: center; }
-  h1 { margin: 0.5rem 0 0.75rem; }
-  .cta { display: flex; flex-wrap: wrap; gap: 0.6rem; margin: 1.5rem 0 1rem; }
-  .links { display: flex; flex-wrap: wrap; gap: 1.25rem; color: var(--ink-3); }
+  .hero { padding: clamp(1.5rem, 3vw, 2.5rem) 0 1.5rem; border-bottom: 1px solid var(--line); text-align: center; }
+  .hero-inner { display: grid; justify-items: center; gap: 0.8rem; }
+  .hero-portrait { width: clamp(88px, 10vw, 124px); aspect-ratio: 1; border: 1px solid var(--line); border-radius: 50%; overflow: hidden; background: var(--bg-2); }
+  .hero-portrait img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 34%; }
+  .copy { display: grid; justify-items: center; }
+  h1 { margin: 0.35rem 0 0.55rem; }
+  .hero .lede { max-width: 54ch; margin-bottom: 0; }
+  .cta { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.6rem; margin: 1rem 0 0.75rem; }
+  .links { display: flex; flex-wrap: wrap; justify-content: center; gap: 1.25rem; color: var(--ink-3); }
   .links a { color: var(--ink-2); }
-  .shot { margin: 0; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; background: var(--bg-2); cursor: zoom-in; }
-  .shot img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 40%; }
-  .shot figcaption { padding: 0.6rem 0.9rem; border-top: 1px solid var(--line); background: var(--bg); }
   .about { display: grid; grid-template-columns: 280px 1fr; gap: clamp(1.5rem, 4vw, 3rem); align-items: start; }
   .portrait { margin: 0; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
   .portrait img { width: 100%; }
   @media (max-width: 880px) {
-    .inner { grid-template-columns: 1fr; }
-    .shot img { aspect-ratio: 3 / 2; }
     .about { grid-template-columns: 1fr; }
     .portrait { max-width: 220px; }
   }
