@@ -206,6 +206,17 @@ if (!(await exists(drivebaseVideoPath))) {
   }
 }
 
+const immutableFiles = new Map([
+  ['src/content/research/wearable-health-ml.mdx', '9bbf34e834d25a10b1033cd11de85e0d74215623e389336b8da7ebb9a89537ef'],
+  ['public/Yash_Piratla_Resume.pdf', '67051606f0fbd1740fce95bd7e3992acb4d43db2aa42637f87d9078d769fb9ff'],
+]);
+
+for (const [relative, expectedDigest] of immutableFiles) {
+  const contents = await readFile(path.join(root, relative));
+  const digest = createHash('sha256').update(contents).digest('hex');
+  if (digest !== expectedDigest) fail(`${relative}: protected content changed`);
+}
+
 if (failures.length > 0) {
   console.error(`Site audit failed with ${failures.length} issue${failures.length === 1 ? '' : 's'}:`);
   failures.forEach((failure) => console.error(`- ${failure}`));
