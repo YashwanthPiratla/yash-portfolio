@@ -65,6 +65,8 @@ season: 2027 FRC season   # optional
 hero: my-slug/hero.png
 heroContain: true         # true for CAD/diagrams; false for photos
 thumbnail: my-slug/thumb.png
+ctaLabel: View Case Study →       # optional card CTA override
+caseStudyUrl: https://example.org # optional external case-study destination
 stats:
   - { value: '20:1', label: 'Gear ratio' }
 sections:
@@ -81,6 +83,9 @@ Text…
 <Fig src={img('my-slug/photo.png')} alt="…" label="CAD" caption="…" contain />
 </section>
 ```
+
+Omitting `caseStudyUrl` retains the local project route. External destinations open in a new tab
+with `rel="noopener"`.
 
 Available MDX building blocks include `<Fig>`, `<PSR>`, `.split`, `.split.rev`, `.psr-list`,
 `.timeline`, `.spec-table`, `.note`, `.role`, and `.grid.two/.three`.

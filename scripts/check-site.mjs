@@ -95,6 +95,22 @@ for (const file of sitemapFiles) {
   if (xml.includes('/projects/fpv-drone/')) fail(`${path.basename(file)}: draft FPV route is exposed in the sitemap`);
 }
 
+const fpvSource = await readFile(path.join(root, 'src/content/projects/fpv-drone.mdx'), 'utf8');
+for (const [label, pattern] of [
+  ['personal-project wording', /\bpersonal mechanical and electrical project\b/i],
+  ['solo-build wording', /\bbuilt solo\b/i],
+  ['unsupported solo authorship', /\bI designed and assembled\b/i],
+]) {
+  if (pattern.test(fpvSource)) fail(`/projects/fpv-drone/: contains ${label}`);
+}
+
+for (const relative of ['index.html', 'projects/index.html']) {
+  const html = await readFile(path.join(dist, relative), 'utf8');
+  if (!html.includes('View Case Study →')) {
+    fail(`/${relative === 'index.html' ? '' : 'projects/'}: FPV card is missing View Case Study CTA`);
+  }
+}
+
 if (failures.length > 0) {
   console.error(`Site audit failed with ${failures.length} issue${failures.length === 1 ? '' : 's'}:`);
   failures.forEach((failure) => console.error(`- ${failure}`));
