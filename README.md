@@ -66,7 +66,7 @@ season: 2027 FRC season   # optional
 hero: my-slug/hero.png
 heroContain: true         # true for CAD/diagrams; false for photos
 thumbnail: my-slug/thumb.png
-placeholderLabel: Group case study coming soon # optional label when no thumbnail is available
+placeholderLabel: Final link pending # optional label when no thumbnail is available
 ctaLabel: View Case Study →       # optional card CTA override
 caseStudyUrl: https://example.org # optional external case-study destination
 stats:

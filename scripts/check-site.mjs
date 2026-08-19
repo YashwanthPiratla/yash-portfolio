@@ -155,15 +155,19 @@ for (const [label, pattern] of [
 for (const relative of ['index.html', 'projects/index.html']) {
   const html = await readFile(path.join(dist, relative), 'utf8');
   const route = `/${relative === 'index.html' ? '' : 'projects/'}`;
-  const fpvCard = html.match(/<article\b[\s\S]*?<h3[^>]*>[\s\S]*?5(?:&quot;|") FPV Drone[\s\S]*?<\/article>/)?.[0];
-  if (!fpvCard) {
+  const articles = [...html.matchAll(/<article\b[\s\S]*?<\/article>/g)].map((match) => match[0]);
+  const fpvCards = articles.filter((article) => /<h3[^>]*>[\s\S]*?5(?:&quot;|") FPV Drone/.test(article));
+  if (fpvCards.length === 0) {
     fail(`${route}: FPV card is missing`);
+  } else if (fpvCards.length > 1) {
+    fail(`${route}: expected exactly one FPV card, found ${fpvCards.length}`);
   } else {
+    const [fpvCard] = fpvCards;
     if (!fpvCard.includes('View Case Study →')) {
       fail(`${route}: FPV card is missing View Case Study CTA`);
     }
-    if (!fpvCard.includes('Group case study coming soon')) {
-      fail(`${route}: FPV card is missing its group-case-study placeholder`);
+    if (!fpvCard.includes('Final link pending')) {
+      fail(`${route}: FPV card is missing its URL-only placeholder`);
     }
     if (fpvCard.includes('Photos coming soon')) {
       fail(`${route}: FPV card still requests photos`);
