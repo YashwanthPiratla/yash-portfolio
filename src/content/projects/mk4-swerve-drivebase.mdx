@@ -86,15 +86,21 @@ intake, and climbing mechanisms within the constraints of the FRC game.
 <span class="eyebrow">04 — Packaging & system integration</span>
 <h2>Every subsystem planned together</h2>
 
-The primary architectural challenge was packaging all major subsystems within the limited chassis
-volume while complying with FRC size constraints. The robot uses an **under-bumper intake**, which
-required significant space beneath the front of the chassis — so the drivetrain, battery,
-electronics, elevator, and climbing mechanism were all planned together during CAD rather than
-independently.
-
-Component placement was coordinated to reserve sufficient volume for the intake throughout its
-motion, prevent interference between mechanisms, simplify subsystem integration, maintain access
-for manufacturing and maintenance, and keep the robot balanced while supporting every mechanism.
+<div class="split">
+  <div class="txt">
+    <p>The primary architectural challenge was packaging all major subsystems within the limited
+    chassis volume while complying with FRC size constraints. The robot uses an
+    <b>under-bumper intake</b>, which required significant space beneath the front of the chassis —
+    so the drivetrain, battery, electronics, elevator, and climbing mechanism were all planned
+    together during CAD rather than independently.</p>
+    <p>Component placement was coordinated to reserve sufficient volume for the intake throughout
+    its motion, prevent interference between mechanisms, simplify subsystem integration, maintain
+    access for manufacturing and maintenance, and keep the robot balanced while supporting every
+    mechanism.</p>
+  </div>
+  <Fig src={img('drivebase/intake-indexer-packaging.png')} alt="Transparent CAD close-up of the under-bumper intake and indexer packaged against the drivebase" contain
+       label="Subsystem packaging" caption="The intake and indexer nested into the front of the chassis volume reserved during drivebase design." />
+</div>
 </section>
 
 <section id="manufacturing">

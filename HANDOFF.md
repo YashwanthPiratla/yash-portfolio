@@ -148,7 +148,9 @@ transfer. Review every pull request through its Vercel preview before merging to
   `src/content/projects/fpv-drone.mdx` to its final URL. Do not invent or substitute a URL.
 - **New project:** add images and one MDX file, including explicit `sections` metadata as shown in
   `README.md`.
-- **Text or image edit:** update `src/content/**` or the relevant file in `src/pages/`.
+- **Text or image edit:** export the current linked Google source document first, compare its media
+  against `src/assets/img/**`, then update `src/content/**` or the relevant file in `src/pages/`.
+  Do not assume an older downloaded DOCX still contains Yash's latest images.
 - **Before publishing:** run `npm run check` and `npm run test:site`.
 
 ### Content guardrails
@@ -162,12 +164,11 @@ transfer. Review every pull request through its Vercel preview before merging to
 
 ### Project media still requested
 
-- **Elevator:** belt-tensioner CAD/physical photo, PLA-to-carbon-fiber-PLA pulley iteration, failed
-  motor mount or bent pulley, manufacturing/assembly, and detailed belt-routing views.
-- **Climber:** dead-axle close-up, carbon-fiber hook close-up, FEA screenshot, hook-testing media,
-  and the final mechanism installed on the robot.
-- **Drivebase:** bumper mounts, battery mount, under-bumper intake, wiring close-ups, manufacturing,
-  and a final full-robot photograph.
+- **Elevator:** failed motor mount or bent pulley and dedicated manufacturing/assembly photos.
+- **Climber:** carbon-fiber hook close-up, hook-testing media, and the final mechanism installed on
+  the robot.
+- **Drivebase:** bumper mounts, battery mount, wiring close-ups, manufacturing-process photos, and
+  a final full-robot photograph.
 
 The current pages intentionally remain asset-honest until these files arrive.
 

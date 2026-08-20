@@ -1,6 +1,7 @@
-# Draft — not sent
+# Historical — sent on 2026-08-19
 
-Before sending, confirm the deployed site, handoff link, and remaining-media request are current.
+The 2026-08-20 source refresh made the statement about using every available mechanism image fully
+accurate. Preserve this message as the record of what was sent; do not send it again.
 
 To: ypiratla@gmail.com
 Subject: Portfolio update — PT2 revisions and remaining project media

@@ -10,6 +10,12 @@
 
 **Spec:** `docs/superpowers/specs/2026-08-17-pt2-portfolio-revision-design.md`
 
+> **2026-08-20 source-refresh correction:** The original linked Google photo documents were
+> updated after the local FRC download used by this plan. The current exports contain 9 elevator,
+> 7 climber, and 4 drivebase images, superseding the stale 2/4/3 inventory and the statement below
+> that no climber MDX changes were required. The follow-up implementation imports every new image,
+> updates the three mechanism pages, and enforces the refreshed counts in `scripts/check-site.mjs`.
+
 ## Global Constraints
 
 - Merge Yash's pull request #1 before implementation and retain his commit attribution.
@@ -806,12 +812,11 @@ Add:
 ```md
 ### Project media still requested
 
-- **Elevator:** belt-tensioner CAD/physical photo, PLA-to-carbon-fiber-PLA pulley iteration, failed
-  motor mount or bent pulley, manufacturing/assembly, and detailed belt-routing views.
-- **Climber:** dead-axle close-up, carbon-fiber hook close-up, FEA screenshot, hook-testing media,
-  and the final mechanism installed on the robot.
-- **Drivebase:** bumper mounts, battery mount, under-bumper intake, wiring close-ups, manufacturing,
-  and a final full-robot photograph.
+- **Elevator:** failed motor mount or bent pulley and dedicated manufacturing/assembly photos.
+- **Climber:** carbon-fiber hook close-up, hook-testing media, and the final mechanism installed on
+  the robot.
+- **Drivebase:** bumper mounts, battery mount, wiring close-ups, manufacturing-process photos, and
+  a final full-robot photograph.
 
 The current pages intentionally remain asset-honest until these files arrive.
 ```

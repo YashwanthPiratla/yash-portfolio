@@ -21,6 +21,9 @@ When sources disagree, apply them in this order:
 4. Yash's supplied résumé for biographical and experience facts.
 5. Existing site copy only where none of the sources above changes it.
 
+For linked Google photo documents, export the live document immediately before implementation.
+A previously downloaded DOCX is a snapshot, not the current source of truth.
+
 No new claim, metric, project responsibility, image, or URL may be invented to make the site feel
 more complete.
 
@@ -113,9 +116,9 @@ They do not link to detail pages.
 
 ## Engineering case-study media
 
-The current source set is limited to two elevator images, four climber images, and three drivebase
-images. The revision will use those assets honestly and will not imply that every requested visual
-exists.
+The refreshed linked source documents contain nine elevator images, seven climber images, and four
+drivebase images. The revision will use every supplied mechanism image once on its matching case
+study and will not imply that any still-unavailable visual exists.
 
 ### Three-Stage Cascading Elevator
 
@@ -125,8 +128,10 @@ exists.
   reach, arm-pivot contribution, single motor at 20:1, repurposed synchronization shaft, aluminum
   V-slot, iteration history, and Yash's supported design/assembly responsibilities.
 - Do not imply that Yash personally operated every manufacturing machine.
-- Record the missing tensioner, pulley-iteration, failed-part, manufacturing, and detailed belt
-  routing visuals in the handoff instead of adding placeholders throughout the page.
+- Add the refreshed belt-routing CAD, installed tensioner close-up, pulley before/after visuals,
+  Limelight mount CAD, front testing photo, and top-view integration photo beside their matching
+  technical sections.
+- Record only the still-missing failed-part and dedicated manufacturing visuals in the handoff.
 
 ### Deployable Multi-Level Climbing Mechanism
 
@@ -134,22 +139,27 @@ exists.
 - Use `climber/cad-front.png`, `climber/cad-top-transparent.png`, and
   `climber/bench-assembly.png` once each, placed beside the architecture, transmission, and
   assembly/testing narratives respectively.
+- Add the refreshed dead-axle close-up, linear-rail CAD, and hook FEA image beside their matching
+  architecture subsections.
 - Preserve the dead-axle, belt/gear reduction, chain drive, carbon-fiber hook, FEA, packaging, hook
   testing, and final mechanism story already supported by the project documentation.
-- Record missing close-up or dedicated FEA/testing visuals in the handoff.
+- Record only the still-missing hook close-up, hook-testing media, and final installed mechanism in
+  the handoff.
 
 ### MK4 Swerve Drivebase
 
 - Keep `drivebase/cad-iso.png` as the case-study hero and remove its duplicated body figure.
 - Use `drivebase/cad-bellypan-electronics.png` once beside electronics packaging.
 - Use `drivebase/chassis-build.png` once beside manufacturing, wiring, and assembly.
+- Add the refreshed intake/indexer CAD beside the packaging and system-integration narrative.
 - Download the supplied drivebase MP4 from
   <https://drive.google.com/drive/folders/1w9hodGHEWQtVi_rFaf40TX6zm7DUHhcp>, retain its original
   content, and publish it as a locally served, controls-enabled, non-autoplaying HTML video with
   `preload="metadata"`.
 - Preserve the supported frame-rail, cross-member, bumper, battery, bellypan, intake, wiring,
   packaging, manufacturing, and final-system narrative.
-- Record missing dedicated close-ups and final-robot photographs in the handoff.
+- Record the still-missing bumper, battery, wiring, manufacturing-process, and final-robot visuals
+  in the handoff.
 
 Existing `.split`, figure, caption, and full-width patterns should be used to vary layout. Add a
 small video wrapper only if the existing figure styles cannot provide correct sizing and captions.

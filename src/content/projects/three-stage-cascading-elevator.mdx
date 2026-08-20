@@ -96,14 +96,20 @@ final system relied on the elevator's vertical extension combined with a pivotin
 
 ### Belt-driven cascading system
 
-The elevator used a fully belt-driven cascading system, with the stages mechanically connected
-through the belt rigging:
-
-- The first stage was clamped to the static frame.
-- The second stage was clamped to the first stage.
-- The third-stage carriage was clamped to the second stage.
-
-This let the stages extend together while staying synchronized.
+<div class="split">
+  <div class="txt">
+    <p>The elevator used a fully belt-driven cascading system, with the stages mechanically
+    connected through the belt rigging:</p>
+    <ul>
+      <li>The first stage was clamped to the static frame.</li>
+      <li>The second stage was clamped to the first stage.</li>
+      <li>The third-stage carriage was clamped to the second stage.</li>
+    </ul>
+    <p>This let the stages extend together while staying synchronized.</p>
+  </div>
+  <Fig src={img('elevator/belt-routing-transparent.png')} alt="Transparent elevator CAD showing the cascading belt paths around all three stages" contain
+       label="Belt routing" caption="The transparent CAD isolates the cascading belt paths and the relationship between the three moving stages." />
+</div>
 
 <div class="note">
 <b>Two motors → one.</b> The elevator was originally intended to use two motors with a
@@ -129,9 +135,22 @@ constraint while still extending far enough to reach the high scoring target.
 <span class="eyebrow">04 — Problem → solution → result</span>
 <h2>What broke, and what I did about it</h2>
 
-Most of the major problems came from component interference, belt tension, or localized structural
-loading. Rather than treating the elevator as one fixed design, I iterated individual components as
-problems emerged during testing.
+<div class="split rev">
+  <Fig src={img('elevator/belt-tensioner-closeup.png')} alt="Close-up of the elevator belt tensioner, drive pulleys, and toothed belts on the assembled mechanism"
+       label="As built" caption="The installed belt hardware: printed tensioning components, toothed pulleys, and the paired belt runs on the lower stage." />
+  <div class="txt">
+    <p>Most of the major problems came from component interference, belt tension, or localized
+    structural loading. Rather than treating the elevator as one fixed design, I iterated
+    individual components as problems emerged during testing.</p>
+  </div>
+</div>
+
+<div class="grid two">
+  <Fig src={img('elevator/reinforced-pulley-cad.png')} alt="CAD close-up of the reinforced custom elevator pulley with internal support structure" contain
+       label="After" caption="The reinforced custom-pulley design, with additional structure around the toothed pulley and bearing interface." />
+  <Fig src={img('elevator/original-printed-pulley.png')} alt="Earlier 3D-printed elevator pulley body before the reinforced redesign"
+       label="Before" caption="The earlier printed pulley body before the geometry and material were strengthened for the belt load." />
+</div>
 
 <div class="psr-list">
 <PSR
@@ -186,16 +205,22 @@ assisted with manufacturing.</p>
 <span class="eyebrow">06 — Systems integration</span>
 <h2>Camera integration</h2>
 
-I also designed a custom camera mount as part of the elevator and robot architecture.
-
-The original camera requirements called for separate cameras for intake detection and
-elevator-based targeting. During development I recognized that the elevator could not be operating
-in the same position as the ground intake, which made it possible to combine the functions — so I
-integrated both requirements into a **single Limelight 4**, reducing hardware and packaging.
-
-The camera location was later moved to the opposite side of the robot for better visibility for
-reef localization and AprilTag targeting. That required coordinating the camera's position with
-the elevator's motion, robot packaging, field of view, wiring, and access to the camera's controls.
+<div class="split">
+  <div class="txt">
+    <p>I also designed a custom camera mount as part of the elevator and robot architecture.</p>
+    <p>The original camera requirements called for separate cameras for intake detection and
+    elevator-based targeting. During development I recognized that the elevator could not be
+    operating in the same position as the ground intake, which made it possible to combine the
+    functions — so I integrated both requirements into a <b>single Limelight 4</b>, reducing
+    hardware and packaging.</p>
+    <p>The camera location was later moved to the opposite side of the robot for better visibility
+    for reef localization and AprilTag targeting. That required coordinating the camera's position
+    with the elevator's motion, robot packaging, field of view, wiring, and access to the camera's
+    controls.</p>
+  </div>
+  <Fig src={img('elevator/limelight-mount-cad.png')} alt="CAD rendering of the angled Limelight 4 camera mount" contain
+       label="Systems integration" caption="The custom angled mount packages the Limelight 4 into the elevator and robot architecture." />
+</div>
 </section>
 
 <section id="evolution">
@@ -229,30 +254,42 @@ the elevator's motion, robot packaging, field of view, wiring, and access to the
 <span class="eyebrow">08 — Testing & iteration</span>
 <h2>Iterating parts, not the whole machine</h2>
 
-The elevator was not developed through repeated complete redesigns. I iterated individual
-components as problems appeared during fabrication and testing:
-
-- Redesigning belt clamps after tooth skipping occurred
-- Reinforcing the first-stage pulley after it bent under belt tension
-- Redesigning the belt tensioning mechanism after the cable-clamp method proved impractical
-- Increasing the structural support of the custom pulley, and switching it to carbon-fiber PLA
-- Replacing the cracked motor mount
-- Removing the carriage after the game strategy changed
-- Reworking the camera mounting architecture as robot requirements evolved
-
-Once the individual components were resolved, the complete elevator was assembled and tested
-before deployment on the competition robot.
+<div class="split">
+  <div class="txt">
+    <p>The elevator was not developed through repeated complete redesigns. I iterated individual
+    components as problems appeared during fabrication and testing:</p>
+    <ul>
+      <li>Redesigning belt clamps after tooth skipping occurred</li>
+      <li>Reinforcing the first-stage pulley after it bent under belt tension</li>
+      <li>Redesigning the belt tensioning mechanism after the cable-clamp method proved impractical</li>
+      <li>Increasing the structural support of the custom pulley, and switching it to carbon-fiber PLA</li>
+      <li>Replacing the cracked motor mount</li>
+      <li>Removing the carriage after the game strategy changed</li>
+      <li>Reworking the camera mounting architecture as robot requirements evolved</li>
+    </ul>
+    <p>Once the individual components were resolved, the complete elevator was assembled and
+    tested before deployment on the competition robot.</p>
+  </div>
+  <Fig src={img('elevator/elevator-front-testing.png')} alt="Front view of the elevator extended during robot testing"
+       label="Testing" caption="The elevator extended on the assembled robot during systems testing in the shop." />
+</div>
 </section>
 
 <section id="result">
 <span class="eyebrow">09 — Result</span>
 <h2>On the competition robot</h2>
 
-The completed elevator was successfully integrated into the competition robot and used as part of
-the final robot architecture. The final single-motor configuration provided sufficient lifting
-performance while reducing the elevator's weight compared with the original two-motor design.
-
-The mechanism combined three-stage cascading extension with the pivoting motion of the scoring
-mechanism to reach the ~7-ft-high algae scoring target — while remaining within the robot's
-starting-height and total weight constraints.
+<div class="split rev">
+  <Fig src={img('elevator/robot-integration-top-view.png')} alt="Top view of the competition robot showing the elevator integrated with the surrounding mechanisms"
+       label="Final integration" caption="The elevator packaged into the competition robot alongside the drivetrain, intake, electronics, and scoring hardware." />
+  <div class="txt">
+    <p>The completed elevator was successfully integrated into the competition robot and used as
+    part of the final robot architecture. The final single-motor configuration provided sufficient
+    lifting performance while reducing the elevator's weight compared with the original two-motor
+    design.</p>
+    <p>The mechanism combined three-stage cascading extension with the pivoting motion of the
+    scoring mechanism to reach the ~7-ft-high algae scoring target — while remaining within the
+    robot's starting-height and total weight constraints.</p>
+  </div>
+</div>
 </section>

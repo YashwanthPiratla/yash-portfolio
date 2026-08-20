@@ -79,6 +79,21 @@ for (const relative of publishedCases) {
   if (!/class=["'][^"']*\bsubnav\b/.test(html)) fail(`/${relative.replace('index.html', '')}: missing case-study subnavigation`);
 }
 
+const expectedEngineeringMediaCounts = new Map([
+  ['projects/three-stage-cascading-elevator/index.html', 9],
+  ['projects/deployable-climbing-mechanism/index.html', 7],
+  ['projects/mk4-swerve-drivebase/index.html', 4],
+]);
+
+for (const [relative, expectedCount] of expectedEngineeringMediaCounts) {
+  const html = await readFile(path.join(dist, relative), 'utf8');
+  const main = html.match(/<main\b[^>]*>([\s\S]*?)<\/main>/)?.[1] ?? '';
+  const actualCount = [...main.matchAll(/<img\b/g)].length;
+  if (actualCount !== expectedCount) {
+    fail(`/${relative.replace('index.html', '')}: expected ${expectedCount} supplied project images, found ${actualCount}`);
+  }
+}
+
 for (const relative of [
   'projects/deployable-climbing-mechanism/index.html',
   'projects/mk4-swerve-drivebase/index.html',
