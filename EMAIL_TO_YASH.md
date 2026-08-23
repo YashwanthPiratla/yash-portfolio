@@ -1,4 +1,7 @@
-# Email draft — not sent
+# Historical — sent and superseded
+
+> Do not send or reuse this message. It is preserved only as a historical record.
+> Use the [corrective unsent follow-up draft](docs/communications/yash-pt2-follow-up-email.md) for current communication.
 
 > Pre-send note for Johaan: push and deploy this revision, then verify the review URL before sending.
 > Do not include this note in the email.

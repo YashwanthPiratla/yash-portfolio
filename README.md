@@ -6,7 +6,8 @@ The site is a static Astro build deployed on Vercel.
 - Live review build: <https://yash-piratla.vercel.app>
 - Planned canonical production domain: <https://yash.piratla.com>
 - Ownership, deployment, domain, and DNS instructions: [`HANDOFF.md`](HANDOFF.md)
-- Unsent handoff email draft: [`EMAIL_TO_YASH.md`](EMAIL_TO_YASH.md)
+- Unsent corrective follow-up email draft: [`docs/communications/yash-pt2-follow-up-email.md`](docs/communications/yash-pt2-follow-up-email.md)
+- Historical sent email archive (do not send or reuse): [`EMAIL_TO_YASH.md`](EMAIL_TO_YASH.md)
 
 The custom domain is not live yet. Until its DNS is moved to Vercel, canonical and social metadata
 will name the planned production URL while the review build remains on `vercel.app`.
@@ -65,6 +66,9 @@ season: 2027 FRC season   # optional
 hero: my-slug/hero.png
 heroContain: true         # true for CAD/diagrams; false for photos
 thumbnail: my-slug/thumb.png
+placeholderLabel: Final link pending # optional label when no thumbnail is available
+ctaLabel: View Case Study →       # optional card CTA override
+caseStudyUrl: https://example.org # optional external case-study destination
 stats:
   - { value: '20:1', label: 'Gear ratio' }
 sections:
@@ -82,6 +86,9 @@ Text…
 </section>
 ```
 
+Omitting `caseStudyUrl` retains the local project route. External destinations open in a new tab
+with `rel="noopener"`.
+
 Available MDX building blocks include `<Fig>`, `<PSR>`, `.split`, `.split.rev`, `.psr-list`,
 `.timeline`, `.spec-table`, `.note`, `.role`, and `.grid.two/.three`.
 
@@ -95,7 +102,7 @@ Scroll reveals are progressive enhancement: selected blocks move up 10 pixels wh
 
 Replace `public/Yash_Piratla_Resume.pdf` with the corrected PDF while keeping the filename, then run
 the release checks and redeploy. The current file is intentionally unchanged pending a corrected
-export from Yash; see `EMAIL_TO_YASH.md`.
+export from Yash; see the [corrective follow-up email draft](docs/communications/yash-pt2-follow-up-email.md).
 
 ## Accuracy rule
 

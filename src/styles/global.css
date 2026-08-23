@@ -107,6 +107,8 @@ figure.fig.contain { background: #fff; }
 figure.fig.contain img { object-fit: contain; }
 figure.fig figcaption { padding: 0.6rem 0.9rem; font-size: 0.82rem; color: var(--ink-3); border-top: 1px solid var(--line); background: var(--bg); }
 figure.fig figcaption b { color: var(--ink-2); font-weight: 600; }
+figure.video-figure { background: #0b0d10; }
+figure.video-figure video { width: auto; max-height: min(72vh, 760px); margin: 0 auto; background: #0b0d10; }
 .zoomable { cursor: zoom-in; }
 .zoomable:focus-visible { border-color: var(--accent); }
 

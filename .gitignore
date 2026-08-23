@@ -1,6 +1,7 @@
-node_modules/
-dist/
 .astro/
 .vercel/
+.worktrees/
+.superpowers/
 .DS_Store
-.vercel
+dist/
+node_modules/

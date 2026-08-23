@@ -15,6 +15,9 @@ const base = {
   hero: z.string().optional(),        // path under src/assets/img/, e.g. "elevator/cad-iso.png"
   heroContain: z.boolean().default(false),
   thumbnail: z.string().optional(),
+  placeholderLabel: z.string().optional(),
+  ctaLabel: z.string().optional(),
+  caseStudyUrl: z.url().optional(),
   stats: z.array(z.object({ value: z.string(), label: z.string() })).default([]),
   sections: z.array(z.object({ id: z.string(), label: z.string() })).default([]),
   season: z.string().optional(),      // e.g. "2025 FRC Reefscape"

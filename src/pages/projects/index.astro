@@ -8,21 +8,24 @@ const projects = (await getCollection('projects')).sort((a, b) => a.data.order -
   <section class="section">
     <div class="wrap">
       <span class="eyebrow accent">Engineering projects</span>
-      <h1>Things I designed, built, broke, and fixed</h1>
-      <p class="lede">Each case study follows the same arc — requirements, engineering decisions,
-      what failed under test, and what I changed. Numbers and methods come from the project
+      <h1>Engineering projects and collaborative builds</h1>
+      <p class="lede">These case studies document requirements, engineering decisions, testing,
+      and iteration across individual and group projects. Numbers and methods come from project
       documentation, not from memory.</p>
       <div class="grid two" style="margin-top: 2.5rem">
         {projects.map(p => (
           <ProjectCard
-            href={`/projects/${p.id}`}
+            href={p.data.caseStudyUrl ?? `/projects/${p.id}`}
             title={p.data.title}
             summary={p.data.summary}
             disciplines={p.data.disciplines}
             thumbnail={p.data.thumbnail}
+            placeholderLabel={p.data.placeholderLabel}
             status={p.data.status}
             contain={p.data.thumbnail?.includes('cad')}
             kindLabel={p.data.season}
+            ctaLabel={p.data.ctaLabel}
+            external={Boolean(p.data.caseStudyUrl)}
           />
         ))}
       </div>
