@@ -10,7 +10,7 @@ const projects = (await getCollection('projects')).sort((a, b) => a.data.order -
 const research = (await getCollection('research')).sort((a, b) => a.data.order - b.data.order);
 ---
 <Base>
-  <section class="hero">
+  <section class="hero" id="home" data-nav-section>
     <div class="wrap hero-inner">
       <figure class="hero-portrait">
         <Image src={headshot} alt="Portrait of Yashwanth Piratla" width={168} loading="eager" format="webp" quality={88} />
@@ -33,7 +33,7 @@ const research = (await getCollection('research')).sort((a, b) => a.data.order -
     </div>
   </section>
 
-  <section class="section">
+  <section class="section" id="projects" data-nav-section>
     <div class="wrap">
       <div class="section-head">
         <div>
@@ -53,7 +53,7 @@ const research = (await getCollection('research')).sort((a, b) => a.data.order -
     </div>
   </section>
 
-  <section class="section">
+  <section class="section" id="research" data-nav-section>
     <div class="wrap">
       <div class="section-head">
         <div>
@@ -74,7 +74,7 @@ const research = (await getCollection('research')).sort((a, b) => a.data.order -
 
   <ExperienceStrip />
 
-  <section class="section">
+  <section class="section" id="about" data-nav-section>
     <div class="wrap about">
       <figure class="portrait">
         <Image src={headshot} alt="Portrait of Yashwanth Piratla" width={420} format="webp" quality={85} />

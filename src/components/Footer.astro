@@ -1,7 +1,8 @@
 ---
 const year = new Date().getFullYear();
+const isHome = Astro.url.pathname === '/';
 ---
-<footer class="site">
+<footer class="site" id={isHome ? 'contact' : undefined} data-nav-section={isHome ? '' : undefined}>
   <div class="wrap inner">
     <div>
       <div class="name">Yashwanth Piratla</div>

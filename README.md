@@ -69,6 +69,8 @@ thumbnail: my-slug/thumb.png
 placeholderLabel: Final link pending # optional label when no thumbnail is available
 ctaLabel: View Case Study →       # optional card CTA override
 caseStudyUrl: https://example.org # optional external case-study destination
+resourceLinks:                    # optional prominent case-hero resources
+  - { label: View CAD, url: https://example.org/cad, primary: true }
 stats:
   - { value: '20:1', label: 'Gear ratio' }
 sections:
@@ -88,6 +90,10 @@ Text…
 
 Omitting `caseStudyUrl` retains the local project route. External destinations open in a new tab
 with `rel="noopener"`.
+
+`resourceLinks` renders prominent, safe new-tab actions between a case-study subtitle and hero.
+Use `primary: true` for at most one preferred destination; supporting resources retain the standard
+outlined button treatment.
 
 Available MDX building blocks include `<Fig>`, `<PSR>`, `.split`, `.split.rev`, `.psr-list`,
 `.timeline`, `.spec-table`, `.note`, `.role`, and `.grid.two/.three`.

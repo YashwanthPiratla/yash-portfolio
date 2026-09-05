@@ -1,0 +1,225 @@
+---
+title: NOD — World’s First Mullet Alarm Clock
+subtitle: Mechanical Design · CAD · Kinematics · Electronics Integration · DFM
+summary: A character-driven mechanical alarm clock whose spring-return head, passive latch, servo linkage, articulated controls, and OLED turn the alarm sequence into a physical interaction.
+disciplines: ['Mechanical Design', 'CAD', 'Kinematics', 'Electronics Integration', 'DFM']
+kind: mechanical
+order: 3
+status: published
+hero: nod/final-assembled-cad.png
+heroContain: true
+thumbnail: nod/final-assembled-cad.png
+stats:
+  - { value: '25°', label: 'Head travel' }
+  - { value: '0.318 lbf·in', label: 'Required servo torque' }
+  - { value: '1.74–1.91 lbf·in', label: 'Servo capability' }
+  - { value: 'PETG', label: 'Prototype material' }
+resourceLinks:
+  - label: View CAD on Onshape
+    url: 'https://cad.onshape.com/documents/3cc67d834625abdaba8a0714/w/8c1d8e43e3b261aa53b61765/e/8846a2ffcb85cf3baeb6b24f?explodedView=MARk7wZDxoNfkNJaE&renderMode=0&rightPanel=explodedViewPanel&uiState=6a9ab5d1dd3da2fde127e88d'
+    primary: true
+  - label: View Full Engineering Documentation
+    url: 'https://docs.google.com/document/d/1hI7eHdzWl168FjE_l6W464brnZpxeCyjNLBIWV2eo8g/edit?usp=sharing'
+sections:
+  - { id: overview, label: Overview }
+  - { id: interaction, label: Interaction }
+  - { id: architecture, label: Architecture }
+  - { id: decisions, label: Decisions }
+  - { id: analysis, label: Analysis }
+  - { id: manufacturing, label: Manufacturing }
+  - { id: testing, label: Testing }
+  - { id: final, label: Final design }
+---
+import Fig from '../../components/Fig.astro';
+import { img } from '../../lib/images';
+
+<section id="overview">
+<span class="eyebrow">01 — Project overview</span>
+<h2>An alarm clock that moves as part of the interface</h2>
+
+NOD is a character-driven mechanical alarm clock that combines **mechanical motion,
+electronics, and physical interaction**. The goal was not to hide a conventional digital alarm
+inside a robot-shaped enclosure. The head, latch, arms, OLED, and time-selection knob all take part
+in setting, activating, snoozing, and stopping the alarm.
+
+The project brings together CAD, mechanical architecture, kinematic verification,
+first-principles force and torque analysis, FDM prototype planning, electronics integration, and a
+path toward production manufacturing.
+
+<div class="note">
+<b>This page is the condensed engineering story.</b> The resource links above provide the complete
+26-page technical documentation and the live Onshape assembly.
+</div>
+</section>
+
+<section id="interaction">
+<span class="eyebrow">02 — User interaction</span>
+<h2>The character is the control surface</h2>
+
+<ol>
+  <li>Rotate the rear knob to select the alarm time.</li>
+  <li>Read the selected time on the OLED.</li>
+  <li>Push the head downward to confirm the time.</li>
+  <li>The head stops and latches at 25°.</li>
+  <li>At the selected time, the alarm activates and the latch releases the head.</li>
+  <li>Press one articulated arm for a 10-minute snooze or the other arm to stop the alarm.</li>
+</ol>
+
+<div class="grid two">
+  <Fig src={img('nod/head-angle-profile.png')} alt="Side CAD view of the NOD head mechanism at its defined upright and 25-degree lowered positions" contain
+       label="Head motion" caption="Mechanical geometry defines the 0° upright position and the 25° lowered alarm-setting state." />
+  <Fig src={img('nod/rear-time-knob.png')} alt="Rear CAD view of NOD showing the rotary knob used to select the alarm time" contain
+       label="Time selection" caption="The rear rotary input selects the time shown on the OLED before the user pushes the head down to confirm." />
+</div>
+</section>
+
+<section id="architecture">
+<span class="eyebrow">03 — Mechanical architecture</span>
+<h2>One expressive motion, built from compact mechanisms</h2>
+
+<div class="split">
+  <div class="txt">
+    <h3>Spring-return head and passive latch</h3>
+    <p>The head rotates through 25° about a fixed pivot. Pushing it down loads a return spring while a
+    striker moves past the latch. The latch then returns to its locking position and retains the head
+    without continuous actuator torque.</p>
+    <p>A mechanical backstop defines the upright position, while the striker-and-latch interface
+    defines the lowered position.</p>
+  </div>
+  <Fig src={img('nod/latch-closeup.png')} alt="Close CAD view of the NOD head striker captured by the passive latch" contain
+       label="Passive retention" caption="The striker gives the latch a dedicated capture surface instead of loading a thin housing edge." />
+</div>
+
+<h3>Micro servo and printed linkage</h3>
+
+The MG90S-class metal-gear micro servo rotates the latch through a short printed linkage. This
+uses fewer components than a gear train, stays compact, and can be revised quickly during
+prototyping.
+
+<div class="grid two">
+  <Fig src={img('nod/servo-linkage-locked.png')} alt="Transparent CAD view of the NOD servo and printed linkage with the latch engaged" contain
+       label="Locked state" caption="The linkage leaves the passive latch engaged while the head is held at 25°." />
+  <Fig src={img('nod/servo-linkage-released.png')} alt="Front CAD view of the NOD servo and printed linkage rotating the latch clear of the striker" contain
+       label="Released state" caption="Servo rotation pulls the latch clear so the stored spring force can return the head upright." />
+</div>
+
+<h3>Articulated arm controls</h3>
+
+Both arms use the same pivot and spring-return architecture. Pressing an arm rotates it against its
+spring and actuates a microswitch; releasing it returns the arm to its resting position. The arms
+therefore serve as both character expression and snooze/stop inputs.
+
+<div class="grid two">
+  <Fig src={img('nod/arm-microswitch.png')} alt="CAD close-up of a NOD arm contacting its internal microswitch" contain
+       label="Switch interface" caption="Arm travel is converted directly into a discrete electrical input." />
+  <Fig src={img('nod/arm-pivot.png')} alt="Transparent CAD view of the NOD articulated arm pivot and spring-return geometry" contain
+       label="Arm pivot" caption="Identical left and right assemblies reduce part variation and simplify replacement." />
+</div>
+
+<div class="split">
+  <div class="txt">
+    <h3>Split housing and moving display</h3>
+    <p>The left/right body halves use M3 fasteners and heat-set inserts so the enclosure can be opened
+    repeatedly for assembly, testing, and component replacement.</p>
+    <p>The servo and control electronics stay in the stationary body to minimize moving mass. Only
+    the OLED and its required wiring move with the head, using a dedicated internal wire channel to
+    avoid the mechanism.</p>
+  </div>
+  <Fig src={img('nod/split-body-assembly.png')} alt="Exploded side CAD view of NOD's split housing, internal electronics, and fastener layout" contain
+       label="Internal packaging" caption="The split enclosure exposes the stationary electronics while preserving a controlled wiring path into the moving head." />
+</div>
+</section>
+
+<section id="decisions">
+<span class="eyebrow">04 — Design decisions</span>
+<h2>Architecture selected around reliability and interaction</h2>
+
+<div class="role">
+  <div><span class="eyebrow">Passive latch</span>Holds the head without asking the servo to sustain torque between setting and release.</div>
+  <div><span class="eyebrow">Printed linkage</span>Provides the required latch travel with fewer parts and faster prototype iteration than a gear train.</div>
+  <div><span class="eyebrow">Split housing</span>Improves print orientation, internal access, assembly, service, and mechanism-level iteration.</div>
+  <div><span class="eyebrow">Stationary electronics</span>Keeps moving mass and head wiring to a minimum while the OLED moves with the character.</div>
+  <div><span class="eyebrow">Arm-mounted controls</span>Make snooze and stop part of the character instead of adding unrelated buttons.</div>
+  <div><span class="eyebrow">Mechanical stops</span>Define the 0° and 25° endpoints through geometry rather than depending on servo positioning.</div>
+</div>
+</section>
+
+<section id="analysis">
+<span class="eyebrow">05 — Engineering analysis</span>
+<h2>Verifying motion and sizing the actuator</h2>
+
+A master mechanism sketch established the fixed servo and latch pivots, the locked 25° state,
+and the released 0° state. The fixed-length linkage was checked through both positions for full
+latch engagement, sufficient release travel, and interference with the striker, body, and servo.
+
+<div class="table-wrap">
+<table class="spec-table">
+  <thead><tr><th>Result</th><th>Engineering meaning</th></tr></thead>
+  <tbody>
+    <tr><td>0.481 lbf·in</td><td>Maximum gravitational torque at 25°; the head-return spring must provide at least this restoring torque.</td></tr>
+    <tr><td>0.664 lbf</td><td>Estimated striker force at the latch; this is the design load for the latch, pivot, and adjacent body ears.</td></tr>
+    <tr><td>0.318 lbf·in</td><td>Calculated servo torque required through the measured latch and horn geometry.</td></tr>
+    <tr><td>1.74–1.91 lbf·in</td><td>Approximate capability of the selected MG90S-class servo, providing substantial static torque margin.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="note">
+These are simplified static calculations. Friction, latch contact behavior, spring tolerances, and
+dynamic loads remain part of physical validation.
+</div>
+</section>
+
+<section id="manufacturing">
+<span class="eyebrow">06 — Structure, materials, and manufacturing</span>
+<h2>Designed to iterate now and manufacture later</h2>
+
+Concentrated loads occur around the latch, M3 latch pivot, body ears, striker, and linkage. The
+design adds material around the pivot, uses filleted transitions, gives the latch a dedicated
+striker, defines travel with mechanical stops, and keeps the linkage short to limit bending.
+
+PETG is specified for the FDM prototype because it offers more toughness and repeated-load
+resistance than PLA while remaining practical to print. Separate head, body, latch, arm, and
+linkage parts allow one mechanism to be revised or replaced without rebuilding the full product.
+M3 fasteners and heat-set inserts support repeatable assembly and servicing.
+
+For production, the proposed architecture transitions the primary housing to injection-molded
+PC-ABS and the repeatedly loaded latch to PA Nylon. Production refinement would add controlled
+wall thicknesses, draft, fillets, and a defined parting line before tooling.
+
+<Fig src={img('nod/exploded-assembly.png')} alt="Exploded CAD assembly of NOD showing the split body, head, arms, mechanisms, and fasteners" contain
+     label="Modular assembly" caption="Separate mechanical modules and standardized hardware support independent assembly, testing, replacement, and manufacturing refinement." />
+</section>
+
+<section id="testing">
+<span class="eyebrow">07 — Testing and development</span>
+<h2>Validation required before design freeze</h2>
+
+The CAD and calculations establish the intended architecture; the following physical validation
+work remains before production:
+
+- Confirm repeatable head travel, latch engagement, and latch release between 0° and 25°.
+- Select and cycle-test the head and arm return springs.
+- Validate servo travel, linkage motion, torque margin, friction, and contact behavior.
+- Confirm both arm-mounted microswitches actuate and reset reliably.
+- Integrate the OLED, microcontroller, knob, switches, servo, power, and alarm-control software.
+- Check that the OLED wiring clears every moving mechanism throughout head travel.
+- Run repeated operating cycles to identify wear, loosening, or loss of function.
+- Validate prototype tolerances, assembly time, and production-critical interfaces before tooling.
+
+Each mechanical, electrical, system, reliability, and manufacturing gate must pass before design
+freeze.
+</section>
+
+<section id="final">
+<span class="eyebrow">08 — Final design</span>
+<h2>Mechanical engineering expressed as product behavior</h2>
+
+NOD combines a spring-return head, passive striker-and-latch retention, servo-operated linkage,
+articulated arm controls, OLED feedback, and a modular split housing into one character-driven
+alarm interaction. The result is a product concept in which mechanical engineering, electronics,
+assembly, and personality support the same user experience.
+
+<Fig src={img('nod/arms-raised.png')} alt="Final NOD CAD view with both articulated arms raised in the alarm state" contain
+     label="Alarm state" caption="The head, OLED, and articulated controls work together as the visible and physical expression of the alarm." />
+</section>

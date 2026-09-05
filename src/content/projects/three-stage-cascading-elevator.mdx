@@ -4,7 +4,7 @@ subtitle: Mechanical Design · CAD · Manufacturing · FRC
 summary: A fully belt-driven three-stage cascading elevator that reaches a 7-ft scoring target from inside a 3 ft 6 in. starting-height envelope — redesigned component-by-component through testing.
 disciplines: ['Mechanical Design', 'CAD', 'Manufacturing', 'Prototyping', 'Testing']
 kind: mechanical
-order: 1
+order: 2
 season: 2025 FRC season
 hero: elevator/robot-full-extension.png
 thumbnail: elevator/cad-iso.png
@@ -55,7 +55,7 @@ constraints.
     final robot architecture. The single-motor configuration provided sufficient lifting
     performance while saving weight against the original two-motor design.</p>
   </div>
-  <Fig src={img('elevator/cad-iso.png')} alt="CAD isometric view of the three-stage cascading elevator assembly" contain
+  <Fig src={img('elevator/cad-iso-tight.png')} alt="CAD isometric view of the three-stage cascading elevator assembly" contain
        label="CAD" caption="The elevator assembly: aluminum V-slot extrusion stages, belt rigging, and the single drive motor at the base." />
 </div>
 </section>
@@ -135,21 +135,15 @@ constraint while still extending far enough to reach the high scoring target.
 <span class="eyebrow">04 — Problem → solution → result</span>
 <h2>What broke, and what I did about it</h2>
 
-<div class="split rev">
-  <Fig src={img('elevator/belt-tensioner-closeup.png')} alt="Close-up of the elevator belt tensioner, drive pulleys, and toothed belts on the assembled mechanism"
-       label="As built" caption="The installed belt hardware: printed tensioning components, toothed pulleys, and the paired belt runs on the lower stage." />
-  <div class="txt">
-    <p>Most of the major problems came from component interference, belt tension, or localized
-    structural loading. Rather than treating the elevator as one fixed design, I iterated
-    individual components as problems emerged during testing.</p>
-  </div>
-</div>
+Most of the major problems came from component interference, belt tension, or localized structural
+loading. Rather than treating the elevator as one fixed design, I iterated individual components as
+problems emerged during testing.
 
-<div class="grid two">
-  <Fig src={img('elevator/reinforced-pulley-cad.png')} alt="CAD close-up of the reinforced custom elevator pulley with internal support structure" contain
-       label="After" caption="The reinforced custom-pulley design, with additional structure around the toothed pulley and bearing interface." />
+<div class="comparison" aria-label="Before and after custom pulley redesign">
   <Fig src={img('elevator/original-printed-pulley.png')} alt="Earlier 3D-printed elevator pulley body before the reinforced redesign"
        label="Before" caption="The earlier printed pulley body before the geometry and material were strengthened for the belt load." />
+  <Fig src={img('elevator/reinforced-pulley-cad-tight.png')} alt="CAD close-up of the reinforced custom elevator pulley with internal support structure" contain
+       label="After" caption="The reinforced custom-pulley design, with additional structure around the toothed pulley and bearing interface." />
 </div>
 
 <div class="psr-list">
@@ -190,15 +184,21 @@ constraint while still extending far enough to reach the high scoring target.
 <span class="eyebrow">05 — Manufacturing</span>
 <h2>Additive and subtractive, together</h2>
 
-<p>The elevator's aluminum plates were plasma cut, and many components were then machined on a
-mill for precise holes, mounting features, and interfaces.</p>
-<p>Several components used hybrid manufacturing. The belt clamps, for example, combined a
-3D-printed component with integrated belt teeth and a plasma-cut aluminum plate: the printed
-part provided the required geometry while the aluminum provided structural support.</p>
-<p>Combining additive and subtractive manufacturing let components be iterated quickly without
-standing up an entirely new manufacturing process for every revision.</p>
-<p class="small muted">I performed the design, CAD, assembly, and testing; other team members
-assisted with manufacturing.</p>
+<div class="split">
+  <div class="txt">
+    <p>The elevator's aluminum plates were plasma cut, and many components were then machined on a
+    mill for precise holes, mounting features, and interfaces.</p>
+    <p>Several components used hybrid manufacturing. The belt clamps, for example, combined a
+    3D-printed component with integrated belt teeth and a plasma-cut aluminum plate: the printed
+    part provided the required geometry while the aluminum provided structural support.</p>
+    <p>Combining additive and subtractive manufacturing let components be iterated quickly without
+    standing up an entirely new manufacturing process for every revision.</p>
+    <p class="small muted">I performed the design, CAD, assembly, and testing; other team members
+    assisted with manufacturing.</p>
+  </div>
+  <Fig src={img('elevator/belt-tensioner-closeup.png')} alt="Close-up of the elevator belt tensioner, drive pulleys, and toothed belts on the assembled mechanism"
+       label="Manufacturing detail" caption="The installed belt hardware combines printed tensioning components, toothed pulleys, and paired belt runs on the lower stage." />
+</div>
 </section>
 
 <section id="camera">

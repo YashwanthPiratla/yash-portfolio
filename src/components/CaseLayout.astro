@@ -1,18 +1,20 @@
 ---
 import Base from '../layouts/Base.astro';
 import CaseHero from './CaseHero.astro';
+interface ResourceLink { label: string; url: string; primary?: boolean; }
 interface Props {
   title: string; subtitle: string; description: string; eyebrow?: string;
   hero?: string; heroAlt?: string; heroCaption?: string; heroContain?: boolean;
   stats?: { value: string; label: string }[];
+  resourceLinks?: ResourceLink[];
   sections?: { id: string; label: string }[];
   prev?: { href: string; title: string }; next?: { href: string; title: string };
   ogImage?: string;
 }
-const { title, subtitle, description, eyebrow, hero, heroAlt, heroCaption, heroContain, stats = [], sections = [], prev, next, ogImage } = Astro.props;
+const { title, subtitle, description, eyebrow, hero, heroAlt, heroCaption, heroContain, stats = [], resourceLinks = [], sections = [], prev, next, ogImage } = Astro.props;
 ---
 <Base title={title} description={description} type="article" ogImage={ogImage}>
-  <CaseHero eyebrow={eyebrow} title={title} subtitle={subtitle} hero={hero} heroAlt={heroAlt} heroCaption={heroCaption} contain={heroContain} stats={stats} />
+  <CaseHero eyebrow={eyebrow} title={title} subtitle={subtitle} hero={hero} heroAlt={heroAlt} heroCaption={heroCaption} contain={heroContain} stats={stats} resourceLinks={resourceLinks} />
   {sections.length > 0 && (
     <div class="subnav">
       <div class="wrap">

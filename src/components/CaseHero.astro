@@ -2,8 +2,22 @@
 import { Image } from 'astro:assets';
 import { img } from '../lib/images';
 import Specs from './Specs.astro';
-interface Props { eyebrow?: string; title: string; subtitle: string; hero?: string; stats?: { value: string; label: string }[]; contain?: boolean; heroAlt?: string; heroCaption?: string; }
-const { eyebrow, title, subtitle, hero, stats = [], contain = false, heroAlt = '', heroCaption } = Astro.props;
+interface ResourceLink { label: string; url: string; primary?: boolean; }
+interface Props {
+  eyebrow?: string;
+  title: string;
+  subtitle: string;
+  hero?: string;
+  stats?: { value: string; label: string }[];
+  resourceLinks?: ResourceLink[];
+  contain?: boolean;
+  heroAlt?: string;
+  heroCaption?: string;
+}
+const {
+  eyebrow, title, subtitle, hero, stats = [], resourceLinks = [], contain = false,
+  heroAlt = '', heroCaption,
+} = Astro.props;
 const meta = hero ? img(hero) : undefined;
 ---
 <section class="hero">
@@ -11,6 +25,16 @@ const meta = hero ? img(hero) : undefined;
     {eyebrow && <span class="eyebrow accent">{eyebrow}</span>}
     <h1>{title}</h1>
     <p class="sub mono">{subtitle}</p>
+    {resourceLinks.length > 0 && (
+      <nav class="case-actions" aria-label="Project resources">
+        {resourceLinks.map((resource) => (
+          <a class:list={['btn', { primary: resource.primary }]} href={resource.url}
+             target="_blank" rel="noopener noreferrer">
+            {resource.label} ↗
+          </a>
+        ))}
+      </nav>
+    )}
     {meta && (
       <figure
         class:list={['fig', 'zoomable', 'shot', { contain }]}
@@ -30,6 +54,7 @@ const meta = hero ? img(hero) : undefined;
   .hero { padding: clamp(2rem, 5vw, 3.5rem) 0 0; }
   h1 { margin: 0.4rem 0 0.5rem; }
   .sub { color: var(--ink-3); font-size: 0.9rem; letter-spacing: 0.02em; margin-bottom: 1.75rem; }
+  .case-actions { display: flex; flex-wrap: wrap; gap: 0.65rem; margin: -0.6rem 0 1.5rem; }
   .shot { margin-bottom: 1.5rem; }
   .shot :global(img) { width: 100%; max-height: 70vh; object-fit: cover; object-position: center; }
   .shot.contain { background: #fff; }

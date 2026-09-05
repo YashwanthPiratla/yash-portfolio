@@ -70,6 +70,7 @@ for (const file of htmlFiles) {
 const publishedCases = [
   'projects/deployable-climbing-mechanism/index.html',
   'projects/mk4-swerve-drivebase/index.html',
+  'projects/nod-mullet-alarm-clock/index.html',
   'projects/three-stage-cascading-elevator/index.html',
   'research/wearable-health-ml/index.html',
 ];
@@ -83,6 +84,7 @@ const expectedEngineeringMediaCounts = new Map([
   ['projects/three-stage-cascading-elevator/index.html', 9],
   ['projects/deployable-climbing-mechanism/index.html', 7],
   ['projects/mk4-swerve-drivebase/index.html', 4],
+  ['projects/nod-mullet-alarm-clock/index.html', 11],
 ]);
 
 for (const [relative, expectedCount] of expectedEngineeringMediaCounts) {
@@ -105,6 +107,54 @@ for (const relative of [
 const home = await readFile(path.join(dist, 'index.html'), 'utf8');
 if (!/<dialog\b[^>]*\bid=["']lightbox["']/.test(home)) fail('/: lightbox is not implemented as a native dialog');
 
+const homepageSections = ['home', 'projects', 'research', 'resume', 'about', 'contact'];
+for (const section of homepageSections) {
+  if (!new RegExp(`<[^>]+id=["']${section}["'][^>]+data-nav-section`).test(home)) {
+    fail(`/: missing navigation section #${section}`);
+  }
+  if (!home.includes(`href="#${section}" data-nav-link="${section}"`)) {
+    fail(`/: primary navigation does not link to #${section}`);
+  }
+}
+
+const projectDetail = await readFile(path.join(dist, 'projects/deployable-climbing-mechanism/index.html'), 'utf8');
+for (const [label, href] of [
+  ['Home', '/'],
+  ['Engineering Projects', '/projects'],
+  ['Research', '/research'],
+  ['Resume', '/resume'],
+  ['About', '/about'],
+  ['Contact', '/contact'],
+]) {
+  if (!projectDetail.includes(`href="${href}" data-nav-link`)) {
+    fail(`/projects/deployable-climbing-mechanism/: ${label} navigation route changed unexpectedly`);
+  }
+}
+
+const navSource = await readFile(path.join(root, 'src/components/Nav.astro'), 'utf8');
+if (!navSource.includes('IntersectionObserver')) fail('Nav.astro: section-aware active-state observer is missing');
+if (!navSource.includes("aria-current', 'location'")) fail('Nav.astro: section links do not expose their active location');
+if (!navSource.includes("window.addEventListener('scroll', queueActiveSectionUpdate")) {
+  fail('Nav.astro: active state is not synchronized through smooth scrolling');
+}
+if (!/\.menu-btn\s*\{[^}]*width:\s*44px;[^}]*height:\s*44px;/.test(navSource)) {
+  fail('Nav.astro: mobile menu control is smaller than 44px');
+}
+
+for (const relative of ['index.html', 'projects/index.html']) {
+  const html = await readFile(path.join(dist, relative), 'utf8');
+  const climberPosition = html.indexOf('Deployable Multi-Level Climbing Mechanism');
+  const elevatorPosition = html.indexOf('Three-Stage Cascading Elevator');
+  if (climberPosition === -1 || elevatorPosition === -1 || climberPosition > elevatorPosition) {
+    fail(`/${relative === 'index.html' ? '' : 'projects/'}: Climber is not before Elevator`);
+  }
+}
+
+if (!home.includes('~$28K revenue')) fail('/: Evergreen Code Camp revenue is not updated');
+for (const href of ['https://evergreencodecamp.com/', 'https://praevius.co/']) {
+  if (!home.includes(`href="${href}"`)) fail(`/: missing experience link ${href}`);
+}
+
 const homeSource = await readFile(path.join(root, 'src/pages/index.astro'), 'utf8');
 if (homeSource.includes("img('elevator/robot-full-extension.png')")) {
   fail('/: homepage still imports the large elevator hero');
@@ -112,7 +162,7 @@ if (homeSource.includes("img('elevator/robot-full-extension.png')")) {
 if (!homeSource.includes('class="hero-portrait"')) {
   fail('/: compact hero portrait is missing');
 }
-const heroOpen = homeSource.indexOf('<section class="hero">');
+const heroOpen = homeSource.indexOf('<section class="hero"');
 const heroClose = homeSource.indexOf('</section>', heroOpen);
 const heroSource = homeSource.slice(heroOpen, heroClose);
 const approvedLinkedInUrl = 'https://www.linkedin.com/in/yashwanth-piratla-5115b826a/';
@@ -150,6 +200,75 @@ if (leadershipPositions.some((position) => position === -1)) {
   fail('/: missing one or more Experience / Leadership cards');
 } else if (!leadershipPositions.every((position, index) => index === 0 || position > leadershipPositions[index - 1])) {
   fail('/: Experience / Leadership cards are out of order');
+}
+
+const elevatorSource = await readFile(
+  path.join(root, 'src/content/projects/three-stage-cascading-elevator.mdx'),
+  'utf8',
+);
+const elevatorProblems = elevatorSource.match(/<section id="problems">([\s\S]*?)<\/section>/)?.[1] ?? '';
+const elevatorManufacturing = elevatorSource.match(/<section id="manufacturing">([\s\S]*?)<\/section>/)?.[1] ?? '';
+const beforePosition = elevatorProblems.indexOf('label="Before"');
+const afterPosition = elevatorProblems.indexOf('label="After"');
+
+if (beforePosition === -1 || afterPosition === -1 || beforePosition > afterPosition) {
+  fail('three-stage-cascading-elevator.mdx: comparison is not Before then After');
+}
+if (elevatorProblems.includes('belt-tensioner-closeup.png')) {
+  fail('three-stage-cascading-elevator.mdx: tensioner photo remains in Problems');
+}
+if (!elevatorManufacturing.includes('belt-tensioner-closeup.png')) {
+  fail('three-stage-cascading-elevator.mdx: tensioner photo is missing from Manufacturing');
+}
+if (!elevatorProblems.includes('class="comparison"')) {
+  fail('three-stage-cascading-elevator.mdx: explicit comparison wrapper is missing');
+}
+
+const expectedProjectOrder = [
+  'Deployable Multi-Level Climbing Mechanism',
+  'Three-Stage Cascading Elevator',
+  'NOD — World’s First Mullet Alarm Clock',
+  'MK4 Swerve Drivebase &amp; Robot Architecture',
+  '5&quot; FPV Drone',
+];
+
+for (const relative of ['index.html', 'projects/index.html']) {
+  const html = await readFile(path.join(dist, relative), 'utf8');
+  const positions = expectedProjectOrder.map((title) => html.indexOf(title));
+  if (positions.some((position) => position === -1)) {
+    fail(`/${relative === 'index.html' ? '' : 'projects/'}: expected project card is missing`);
+  } else if (!positions.every((position, index) => index === 0 || position > positions[index - 1])) {
+    fail(`/${relative === 'index.html' ? '' : 'projects/'}: engineering project cards are out of order`);
+  }
+}
+
+const nodRelative = 'projects/nod-mullet-alarm-clock/index.html';
+const nodPath = path.join(dist, nodRelative);
+if (!(await exists(nodPath))) {
+  fail('/projects/nod-mullet-alarm-clock/: route is missing');
+} else {
+  const nodHtml = await readFile(nodPath, 'utf8');
+  for (const required of [
+    'https://cad.onshape.com/documents/3cc67d834625abdaba8a0714/w/8c1d8e43e3b261aa53b61765/e/8846a2ffcb85cf3baeb6b24f?explodedView=MARk7wZDxoNfkNJaE&amp;renderMode=0&amp;rightPanel=explodedViewPanel&amp;uiState=6a9ab5d1dd3da2fde127e88d',
+    'https://docs.google.com/document/d/1hI7eHdzWl168FjE_l6W464brnZpxeCyjNLBIWV2eo8g/edit?usp=sharing',
+    'View CAD on Onshape',
+    'View Full Engineering Documentation',
+    '0.481 lbf·in',
+    '0.664 lbf',
+    '0.318 lbf·in',
+    '1.74–1.91 lbf·in',
+  ]) {
+    if (!nodHtml.includes(required)) fail(`/projects/nod-mullet-alarm-clock/: missing ${required}`);
+  }
+
+  const nodExternalLinks = [...nodHtml.matchAll(/<a\b([^>]*)>/g)]
+    .map((match) => match[1])
+    .filter((attrs) => attrs.includes('cad.onshape.com') || attrs.includes('docs.google.com'));
+  if (nodExternalLinks.length !== 2 || nodExternalLinks.some((attrs) =>
+    !attrs.includes('target="_blank"') || !attrs.includes('rel="noopener noreferrer"')
+  )) {
+    fail('/projects/nod-mullet-alarm-clock/: resource links are not safe new-tab links');
+  }
 }
 
 const sitemapFiles = files.filter((file) => /sitemap.*\.xml$/.test(file));
@@ -219,6 +338,7 @@ const engineeringSources = [
   'three-stage-cascading-elevator.mdx',
   'deployable-climbing-mechanism.mdx',
   'mk4-swerve-drivebase.mdx',
+  'nod-mullet-alarm-clock.mdx',
 ];
 
 for (const filename of engineeringSources) {

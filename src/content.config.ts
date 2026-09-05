@@ -18,6 +18,11 @@ const base = {
   placeholderLabel: z.string().optional(),
   ctaLabel: z.string().optional(),
   caseStudyUrl: z.url().optional(),
+  resourceLinks: z.array(z.object({
+    label: z.string(),
+    url: z.url(),
+    primary: z.boolean().default(false),
+  })).default([]),
   stats: z.array(z.object({ value: z.string(), label: z.string() })).default([]),
   sections: z.array(z.object({ id: z.string(), label: z.string() })).default([]),
   season: z.string().optional(),      // e.g. "2025 FRC Reefscape"
