@@ -1,0 +1,248 @@
+---
+title: 42-Cell Battery Module Design
+subtitle: Mechanical Design / Battery Systems / FEA
+summary: Designed and analyzed a 42-cell 14S3P battery module in SolidWorks, focusing on structural integrity, cell spacing, insulation, battery-system integration, and manufacturability.
+disciplines: ['Mechanical Design', 'Battery Systems', 'FEA']
+kind: mechanical
+order: 7
+status: published
+season: CAD / Design / Analysis
+hero: battery/battery-final-cad-render.png
+heroContain: true
+thumbnail: battery/battery-final-cad-render.png
+stats:
+  - { value: '42', label: 'Cells' }
+  - { value: '14S3P', label: 'Configuration' }
+  - { value: '50.4 V', label: 'Nominal voltage' }
+  - { value: '14.85 Ah', label: 'Capacity' }
+sections:
+  - { id: overview, label: Overview }
+  - { id: requirements, label: Requirements }
+  - { id: design, label: CAD design }
+  - { id: spacing, label: Cell spacing }
+  - { id: details, label: Design details }
+  - { id: analysis, label: FEA }
+  - { id: iteration, label: Iteration }
+  - { id: manufacturing, label: Manufacturing }
+  - { id: final, label: Final design }
+  - { id: contribution, label: My contribution }
+---
+import Fig from '../../components/Fig.astro';
+import { img } from '../../lib/images';
+
+<section id="overview">
+<span class="eyebrow">01 — Overview</span>
+<h2>Packaging 42 cells as one mechanical system</h2>
+
+I designed a **42-cell, 14S3P battery module in SolidWorks**, with a nominal voltage of
+**50.4 V** and capacity of **14.85 Ah**. The work connected cell spacing and retention with
+structural loading, electrical insulation, BMS / Vsense integration, and practical assembly.
+The main tradeoff was fitting cells, supports, and electronics into a compact module while
+preserving clearance and a defined load path.
+
+<div class="note">Project scope: CAD design, engineering calculations, and structural FEA.
+The module was not physically manufactured or tested.</div>
+</section>
+
+<section id="requirements">
+<span class="eyebrow">02 — Requirements & constraints</span>
+<h2>Electrical architecture sets the mechanical envelope</h2>
+
+<div class="role">
+  <div><span class="eyebrow">42 cells · 14S3P</span>Fourteen series groups, with three cells in parallel per group.</div>
+  <div><span class="eyebrow">50.4 V · 14.85 Ah</span>Nominal module ratings; 58.8 V at full charge.</div>
+  <div><span class="eyebrow">40g / 20g loading</span>40g longitudinal and lateral cases; 20g vertical case.</div>
+  <div><span class="eyebrow">Cell spacing</span>6 mm vertical cell-to-cell gap; 22.0 mm pockets for a 21.7 mm maximum cell diameter.</div>
+  <div><span class="eyebrow">Electrical insulation</span>Separate cells and electronics from conductive structure; preserve connector and wire clearances.</div>
+  <div><span class="eyebrow">Manufacturing</span>ShopBot-machined plates and proposed PC-FR FDM parts, with accessible mechanical joints.</div>
+</div>
+</section>
+
+<section id="design">
+<span class="eyebrow">03 — System / CAD design</span>
+<h2>Cell retention, structure, and electronics in one stack</h2>
+
+The assembly uses cell-locating plates, a surrounding cage, a base, insulation layers, and
+fastened interfaces. These components establish cell position and connect the internal assembly
+to the module mounts. Packaging the BMS and Vsense hardware alongside the cells required
+space for the boards, connectors, wiring, and mechanical attachment.
+
+<Fig src={img('battery/battery-exploded-view.png')} alt="Exploded side CAD view showing battery cells, plates, structural parts, spacers, and fasteners" contain
+  label="Assembly stack" caption="The exploded CAD view shows the relationship between the cells, retaining parts, plates, and fastening hardware." />
+
+<div class="split">
+  <div class="txt">
+    <h3>Why 14S3P?</h3>
+    <p>The design target was approximately 50 V per module. Fourteen 3.6 V cells in series
+    give 50.4 V nominal; three 4.95 Ah cells in parallel give 14.85 Ah. With the cell count
+    fixed at 42, changing the series/parallel split trades voltage against capacity.</p>
+    <p>The locating plates establish the physical cell array. The electrical configuration
+    is 14S3P; the pocket pattern alone does not describe the series connections.</p>
+  </div>
+  <Fig src={img('battery/battery-cell-layout.png')} alt="Two CAD views of cell-locating plates with repeated circular pockets and perimeter mounting holes" contain
+    label="Cell retention" caption="Aligned circular pockets locate the cells while perimeter features provide structural attachment." />
+</div>
+
+<div class="table-wrap">
+<table class="spec-table">
+  <thead><tr><th>Configuration</th><th>Nominal voltage</th><th>Full-charge voltage</th><th>Capacity</th></tr></thead>
+  <tbody>
+    <tr><td>7S6P</td><td>25.2 V</td><td>29.4 V</td><td>29.70 Ah</td></tr>
+    <tr><td><strong>14S3P — selected</strong></td><td><strong>50.4 V</strong></td><td><strong>58.8 V</strong></td><td><strong>14.85 Ah</strong></td></tr>
+    <tr><td>21S2P</td><td>75.6 V</td><td>88.2 V</td><td>9.90 Ah</td></tr>
+    <tr><td>42S1P</td><td>151.2 V</td><td>176.4 V</td><td>4.95 Ah</td></tr>
+  </tbody>
+</table>
+</div>
+
+All four configurations contain approximately **748.4 Wh** of nominal cell energy.
+</section>
+
+<section id="spacing">
+<span class="eyebrow">04 — Cell spacing optimization</span>
+<h2>Balancing clearance, cooling space, and packaging</h2>
+
+I selected a **6 mm vertical cell gap**, using published spacing research as a design reference.
+In that study, increasing the gap from 3 to 6 mm increased mass flow from 0.040 to 0.045 kg/s
+and reduced maximum cell temperature from 46.9 to 41.0 °C. A 9 mm gap reached 39.0 °C,
+illustrating the smaller additional thermal benefit of using more space.
+
+<Fig src={img('battery/battery-spacing-research.png')} alt="Cell-spacing reference comparing 3, 6, and 9 mm gaps, alongside published CFD figures and this project's CAD clearance parameters" contain
+  label="Published research reference" caption="CFD figure and thermal values: Francesco Leotta, Politecnico di Torino (2020), §4.5, Figure 4.13 and Table 4.1. These are results for the researcher's configuration, not simulations or tests of this module." />
+
+The CAD uses **22.0 mm pockets** around a **21.7 mm maximum cell diameter**, leaving
+**0.30 mm diametral clearance** for insertion. Pocket clearance and the 6 mm inter-cell gap
+serve different purposes: one accommodates fit, while the other reserves space between cells.
+
+<p class="small">Reference: Francesco Leotta (2020),
+<a href="https://webthesis.biblio.polito.it/15660/" target="_blank" rel="noopener noreferrer">Design of a battery pack for a Formula SAE racing car</a>,
+Politecnico di Torino, §4.5, pp. 48–51. The published thermal results informed spacing selection;
+they do not establish this module's thermal performance.</p>
+</section>
+
+<section id="details">
+<span class="eyebrow">05 — Design details</span>
+<h2>Protecting the electronics while preserving access</h2>
+
+<div class="split">
+  <div class="txt">
+    <h3>BMS / Vsense integration</h3>
+    <p>The BMS is packaged below the cell array, with clearance to the cells, top plate, and
+    Vsense assembly. Openings face the connectors toward the module exterior for harness access.</p>
+    <p>Dedicated routing space accommodates Vsense, Tsense, and communication wiring. A PET-film
+    insulation layer separates the BMS from the aluminum enclosure and other conductive parts.</p>
+  </div>
+  <Fig src={img('battery/battery-bms-detail.png')} alt="CAD detail showing a green circuit board, a connector aligned with a rectangular access opening, and a section through the board mounting space" contain
+    label="Electronics packaging" caption="Board mounting, connector access, and the section view make the electronics-to-structure clearances visible." />
+</div>
+
+<div class="grid two">
+  <Fig src={img('battery/battery-insulation.png')} alt="CAD views of solid and perforated layers within the module's plate assembly" contain
+    label="Insulation interfaces" caption="The solid and perforated layer views document how insulation fits within the mechanical stack." />
+  <Fig src={img('battery/battery-positive-locking.png')} alt="CAD close-up and side view of fastening hardware through the module structure" contain
+    label="Fastener retention" caption="The design documents positive-locking interfaces and access to the joint hardware; these are CAD details, not verified physical joints." />
+</div>
+</section>
+
+<section id="analysis">
+<span class="eyebrow">06 — Engineering analysis</span>
+<h2>Separate load paths for the cage and base</h2>
+
+I evaluated **40g longitudinal and lateral loads** and **20g vertical loads** to assess the
+structure under inertial loading. The cage calculation uses the mass it supports; the base
+calculation uses the full modeled module mass. Applying **F = ma** gives the documented loads below.
+
+<div class="table-wrap">
+<table class="spec-table">
+  <thead><tr><th>Analyzed component</th><th>Supported CAD mass</th><th>40g · each horizontal case</th><th>20g · vertical case</th></tr></thead>
+  <tbody>
+    <tr><td>Cage</td><td>3.208 kg</td><td>1,260 N</td><td>630 N</td></tr>
+    <tr><td>Base</td><td>4.141 kg</td><td>1,625 N</td><td>813 N</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Cage response</h3>
+<div class="grid two">
+  <Fig src={img('battery/battery-cage-horizontal-fea.png')} alt="Two SolidWorks cage FEA views with horizontal load arrows, fixed attachment points, and result contours" contain
+    label="Horizontal loading · 40g cases" caption="The cage's loaded wall and attachment regions are visible in the paired horizontal-load views." />
+  <Fig src={img('battery/battery-cage-vertical-fea.png')} alt="SolidWorks cage FEA view with vertical load arrows and result contours around the loaded wall" contain
+    label="Vertical loading · 20g case" caption="The vertical-load view highlights bending of the wall around its opening and supported ends." />
+</div>
+
+<h3>Base response</h3>
+<div class="grid two">
+  <Fig src={img('battery/battery-base-horizontal-fea.png')} alt="Two SolidWorks base FEA views showing the perforated cell-support surface and raised mounting regions" contain
+    label="Horizontal loading · 40g cases" caption="The base studies examine the perforated support surface and its connection to the raised mounting regions." />
+  <Fig src={img('battery/battery-base-vertical-fea.png')} alt="SolidWorks base FEA view showing deformation contours across the perforated support surface" contain
+    label="Vertical loading · 20g case" caption="The vertical study concentrates attention on the cell-support surface between the mounts." />
+</div>
+
+FEA provided a way to evaluate deformation and structural margin around openings, plates, and
+attachment points, guiding attention toward the load-bearing geometry during structural
+optimization. The documentation does not tie a specific geometry revision to a before/after FEA
+result, so no quantified improvement is claimed. The displayed deformation shapes are simulation
+visualizations; physical validation and a complete review of material, mesh, and joint assumptions
+remain outside this project's scope.
+</section>
+
+<section id="iteration">
+<span class="eyebrow">07 — Design iteration</span>
+<h2>Three versions of the cell-end arrangement</h2>
+
+<Fig src={img('battery/battery-iteration.png')} alt="Three CAD revisions labeled V1, V2, and V3, showing changes from routed strip-like features to a plate with individual circular cell openings" contain
+  label="V1 → V2 → V3" caption="The documented sequence shows changes to the cell-end layout and surrounding plate geometry." />
+
+V1 and V2 show routed, strip-like features across the cell ends; V3 shows a plate with individual
+circular openings. These views document the layout evolution. The presentation does not specify
+the reason for each transition or a measured benefit, so the sequence is not presented as proof of
+a particular structural or electrical improvement.
+</section>
+
+<section id="manufacturing">
+<span class="eyebrow">08 — Manufacturing considerations</span>
+<h2>Match the process to the part</h2>
+
+<div class="role">
+  <div><span class="eyebrow">ShopBot-machined plates</span>Planar plates, repeated holes, and accessible perimeter features suit a routed machining workflow.</div>
+  <div><span class="eyebrow">PC-FR FDM parts</span>The presentation proposes flame-retardant polycarbonate printing for the remaining custom parts.</div>
+  <div><span class="eyebrow">Cell insertion</span>Defined pocket clearance and separate retaining parts support a staged assembly sequence.</div>
+  <div><span class="eyebrow">Assembly & insulation</span>Separate layers and accessible joints allow insulation and electronics to be installed within the structural stack.</div>
+</div>
+
+The cell-locating and insulation views above show the repeated plate geometry; the exploded
+assembly shows the proposed insertion and fastening sequence. Separating planar plates from
+printed geometry keeps each part suited to its intended process. Manufacturing tolerances,
+printed-part properties, and joint retention would need verification before fabrication.
+</section>
+
+<section id="final">
+<span class="eyebrow">09 — Final design</span>
+<h2>A complete module-level CAD design</h2>
+
+The final assembly combines the **42-cell 14S3P array**, a cage and base evaluated at **20g and
+40g**, cell-locating plates, electrical insulation, and packaged BMS / Vsense hardware. The main
+decisions were selecting 14S3P for the voltage target, reserving 6 mm cell spacing, separating cage
+and base load calculations, and planning parts around machining and FDM processes.
+
+<Fig src={img('battery/battery-final-cad-render.png')} alt="Isometric SolidWorks render of the complete 42-cell battery module with structural cage, cells, board, and mounting base" contain
+  label="Final CAD assembly" caption="The complete mechanical package; this project concludes at design and analysis." />
+
+<h3>What I learned</h3>
+
+Battery-module design requires mechanical and electrical constraints to be resolved together.
+This project developed my approach to FEA-informed structural review, cell fit and spacing,
+insulation interfaces, electronics access, and process-aware part design.
+</section>
+
+<section id="contribution">
+<span class="eyebrow">10 — Personal contribution</span>
+<h2>My role: design, CAD, and analysis</h2>
+
+I developed the SolidWorks module assembly, compared electrical configurations, selected the
+cell-spacing and pocket-clearance parameters, worked through structural and insulation details,
+packaged the BMS / Vsense interfaces, calculated inertial loads, and performed the cage and base
+FEA studies. I also documented the design revisions and proposed manufacturing methods.
+The thermal-spacing study cited above is external research. My work did not include physical
+manufacturing, battery testing, or module-specific CFD.
+</section>
