@@ -176,7 +176,7 @@ if (!heroSource.includes(approvedLinkedInUrl)) {
 const nextSectionOpen = homeSource.indexOf('<section', heroClose);
 const nextSectionClose = homeSource.indexOf('</section>', nextSectionOpen);
 const nextSection = homeSource.slice(nextSectionOpen, nextSectionClose);
-if (heroOpen === -1 || heroClose === -1 || nextSectionOpen === -1 || nextSectionClose === -1 || !nextSection.includes('Mechanical design, built and tested')) {
+if (heroOpen === -1 || heroClose === -1 || nextSectionOpen === -1 || nextSectionClose === -1 || !/id=["']projects["']/.test(nextSection)) {
   fail('/: Engineering Projects is not immediately after the hero');
 }
 if (/(?:^|\n)\s*\.cta\s*\{/.test(homeSource)) {
@@ -227,9 +227,10 @@ if (!elevatorProblems.includes('class="comparison"')) {
 const expectedProjectOrder = [
   'Deployable Multi-Level Climbing Mechanism',
   'Three-Stage Cascading Elevator',
-  'NOD — World’s First Mullet Alarm Clock',
   'MK4 Swerve Drivebase &amp; Robot Architecture',
   '5&quot; FPV Drone',
+  'NOD: World’s First Mullet Alarm Clock',
+  '42-Cell Battery Module Design',
 ];
 
 for (const relative of ['index.html', 'projects/index.html']) {
