@@ -1,0 +1,83 @@
+---
+title: 'Kamino: From Photos to Simulation'
+subtitle: Robotics · Simulation · AI · Systems Integration
+summary: Co-created at Cal Hacks 13.0, Kamino turns object photos into editable MuJoCo simulation assets, bringing 3D reconstruction, physical-property review, and robotics experimentation into one workflow.
+disciplines: ['Robotics', 'MuJoCo', 'AI', 'Systems Integration']
+kind: robotics
+order: 8
+status: published
+season: Cal Hacks 13.0 · Team project
+hero: kamino/banner.png
+heroContain: true
+thumbnail: kamino/demo-poster.png
+ctaLabel: Explore project →
+resourceLinks:
+  - { label: Visit Kamino, url: 'https://kamino.design/', primary: true }
+  - { label: View Devpost, url: 'https://devpost.com/software/kamino' }
+  - { label: Source on GitHub, url: 'https://github.com/Johaan-Mannanal/kamino' }
+sections:
+  - { id: overview, label: Overview }
+  - { id: workflow, label: Workflow }
+  - { id: robotics, label: Robotics demo }
+  - { id: team, label: Team }
+---
+import Fig from '../../components/Fig.astro';
+import { img } from '../../lib/images';
+
+<section id="overview">
+<span class="eyebrow">01 — Overview</span>
+<h2>Bring everyday objects into robotics simulation</h2>
+
+I co-created Kamino at **Cal Hacks 13.0**. Preparing a real object for simulation requires more
+than a 3D mesh: scale, orientation, mass, collision geometry, and contact properties all affect
+how it behaves. Our project brings reconstruction and editable physics into a workflow that
+robotics builders can inspect, correct, and export.
+
+The team combined a photo-to-simulation application with an SO-101 robot-arm demonstration,
+exploring the practical differences between a simulated scene and physical hardware.
+</section>
+
+<section id="workflow">
+<span class="eyebrow">02 — Workflow</span>
+<h2>Reconstruct, review, export</h2>
+
+<div class="role">
+  <div><span class="eyebrow">Capture</span>Upload one to four object photos. Meshy generates a reconstruction from the supplied views.</div>
+  <div><span class="eyebrow">Review</span>Inspect orientation and set a reference length. Review editable physical properties, with Gemini suggestions distinguished from measurements.</div>
+  <div><span class="eyebrow">Simulate</span>Export a portable MuJoCo scene with local assets, assumptions, and a validation report. Revise inputs while retaining earlier exports.</div>
+</div>
+
+The application uses **Python / FastAPI**, **TypeScript / Three.js**, and **MuJoCo**.
+Reconstruction quality, estimated properties, and collision approximations remain important
+limits: a scene that runs successfully still needs review for physical fidelity.
+</section>
+
+<section id="robotics">
+<span class="eyebrow">03 — Robotics demonstration</span>
+<h2>Connecting simulation work to a physical arm</h2>
+
+Our team worked with an **SO-101 leader/follower arm** and a charger-transfer task.
+The development workflow involved leader-recorded motion, simulation review and adjustments,
+and physical trials. Moving between simulation and hardware made calibration, positioning,
+and contact behavior concrete engineering challenges.
+
+<Fig src={img('kamino/demo-poster.png')} alt="Kamino demonstration with a MuJoCo robot-arm replay beside a physical SO-101 arm and charger" contain
+  label="Simulation and hardware" caption="Still from the team's demonstration. The simulation uses recorded arm motion with scripted charger pickup and release; the hardware footage is a separate recording. The comparison does not demonstrate a physics-driven simulated grasp." />
+
+The repository documents the available replay tools and demonstration evidence. Precise
+calibration and reliable contact-rich manipulation remain ongoing work; the hosted photo
+workspace does not execute robot hardware.
+</section>
+
+<section id="team">
+<span class="eyebrow">04 — Collaboration</span>
+<h2>Built with a multidisciplinary team</h2>
+
+Kamino was created by **Johaan Mannanal, Atul Modur, Srijan Kumbam, and Yashwanth Piratla**.
+Atul's Figma design and prototype informed the interface. The hardware and simulation work
+builds on Hugging Face LeRobot, The Robot Studio's SO-101 design, and MuJoCo Menagerie.
+
+<p>Explore the <a href="https://kamino.design/" target="_blank" rel="noopener noreferrer">live application</a>,
+read the <a href="https://devpost.com/software/kamino" target="_blank" rel="noopener noreferrer">hackathon story and demo</a>,
+or browse the <a href="https://github.com/Johaan-Mannanal/kamino" target="_blank" rel="noopener noreferrer">source code and technical documentation</a>.</p>
+</section>
