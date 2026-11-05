@@ -227,10 +227,11 @@ if (!elevatorProblems.includes('class="comparison"')) {
 const expectedProjectOrder = [
   'Deployable Multi-Level Climbing Mechanism',
   'Three-Stage Cascading Elevator',
-  'MK4 Swerve Drivebase &amp; Robot Architecture',
-  '5&quot; FPV Drone',
-  'NOD: World’s First Mullet Alarm Clock',
   '42-Cell Battery Module Design',
+  'MK4 Swerve Drivebase &amp; Robot Architecture',
+  'Kamino: From Photos to Simulation',
+  'NOD: World’s First Mullet Alarm Clock',
+  '5&quot; FPV Drone',
 ];
 
 for (const relative of ['index.html', 'projects/index.html']) {
