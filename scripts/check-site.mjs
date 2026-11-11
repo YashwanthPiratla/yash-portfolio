@@ -390,7 +390,7 @@ if (!(await exists(drivebaseVideoPath))) {
 
 const immutableFiles = new Map([
   ['src/content/research/wearable-health-ml.mdx', '9bbf34e834d25a10b1033cd11de85e0d74215623e389336b8da7ebb9a89537ef'],
-  ['public/Yash_Piratla_Resume.pdf', '67051606f0fbd1740fce95bd7e3992acb4d43db2aa42637f87d9078d769fb9ff'],
+  ['public/Yash_Piratla_Resume.pdf', 'ac5c5bb7c674574c7134af4deaca0d302d9497d2a149486d71fb66b5a6561ab0'],
 ]);
 
 for (const [relative, expectedDigest] of immutableFiles) {
